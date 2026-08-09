@@ -14,6 +14,8 @@ export default function ShopPage() {
     deleteProduct,
     addProduct,
     addToCart,
+    viewingProductId,
+    setViewingProductId,
   } = useOutletContext();
 
   return (
@@ -35,10 +37,12 @@ export default function ShopPage() {
             defaultBorderGif={settings.defaultBorderGif}
             editMode={editMode}
             isEditing={editingProduct === p.id}
+            isViewing={viewingProductId === p.id}
             onEditToggle={() => setEditingProduct(editingProduct === p.id ? null : p.id)}
             onUpdate={(patch) => updateProduct(p.id, patch)}
             onDelete={() => deleteProduct(p.id)}
             onAddToCart={() => addToCart(p)}
+            onView={() => setViewingProductId(p.id)}
           />
         ))}
         {products.length === 0 && (

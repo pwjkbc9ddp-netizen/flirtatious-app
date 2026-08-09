@@ -13,6 +13,8 @@ export default function HomePage() {
     updateProduct,
     deleteProduct,
     addToCart,
+    viewingProductId,
+    setViewingProductId,
   } = useOutletContext();
 
   const featured = products.filter((p) => p.tag === "Bestseller" || p.tag === "New Arrival").slice(0, 3);
@@ -35,10 +37,12 @@ export default function HomePage() {
               defaultBorderGif={settings.defaultBorderGif}
               editMode={editMode}
               isEditing={editingProduct === p.id}
+              isViewing={viewingProductId === p.id}
               onEditToggle={() => setEditingProduct(editingProduct === p.id ? null : p.id)}
               onUpdate={(patch) => updateProduct(p.id, patch)}
               onDelete={() => deleteProduct(p.id)}
               onAddToCart={() => addToCart(p)}
+              onView={() => setViewingProductId(p.id)}
             />
           ))}
           {featured.length === 0 && (

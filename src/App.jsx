@@ -20,6 +20,7 @@ export default function App() {
   const [editingPost, setEditingPost] = useState(null);
   const [editingSettings, setEditingSettings] = useState(false);
   const [saveStatus, setSaveStatus] = useState("");
+  const [viewingProductId, setViewingProductId] = useState(null);
   const saveTimer = useRef(null);
 
   // Load from storage on mount
@@ -133,6 +134,8 @@ export default function App() {
     deleteProduct,
     addProduct,
     addToCart,
+    viewingProductId,
+    setViewingProductId,
     editingPost,
     setEditingPost,
     updatePost,
@@ -146,6 +149,7 @@ export default function App() {
         path="/"
         element={
           <Layout
+            products={products}
             settings={settings}
             setSettings={setSettings}
             editMode={editMode}
@@ -159,6 +163,7 @@ export default function App() {
             cartOpen={cartOpen}
             setCartOpen={setCartOpen}
             updateQty={updateQty}
+            viewingProductId={viewingProductId}
             outletContext={outletContext}
           />
         }

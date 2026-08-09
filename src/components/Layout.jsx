@@ -1,5 +1,5 @@
 import { Outlet, NavLink } from "react-router-dom";
-import { Pencil, ShoppingBag, Check } from "lucide-react";
+import { Pencil, ShoppingBag, Check, X } from "lucide-react";
 import Module from "./Module.jsx";
 import { StatRow, SidebarLink } from "./Misc.jsx";
 import CartDrawer from "./CartDrawer.jsx";
@@ -13,6 +13,7 @@ const NAV_ITEMS = [
 ];
 
 export default function Layout({
+  products,
   settings,
   setSettings,
   editMode,
@@ -26,14 +27,41 @@ export default function Layout({
   cartOpen,
   setCartOpen,
   updateQty,
+  viewingProductId,
   outletContext,
 }) {
+  const { addToCart, setViewingProductId } = outletContext;
+  const viewingProduct = products.find((p) => p.id === viewingProductId) || null;
+
   return (
-    <div className="min-h-screen bg-[#0a0612] text-[#c0c0c8]" style={{ fontFamily: "'Rajdhani', sans-serif" }}>
+    <div className="leopard-frame min-h-screen" style={{ fontFamily: "'Rajdhani', sans-serif" }}>
       <style>{`
         @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700;900&family=Rajdhani:wght@400;500;600;700&family=Share+Tech+Mono&display=swap');
         .font-display { font-family: 'Orbitron', sans-serif; }
         .font-mono { font-family: 'Share Tech Mono', monospace; }
+        .leopard-frame {
+          background:
+            radial-gradient(2px 2px at 10% 20%, #f4ecff 65%, transparent 67%),
+            radial-gradient(2px 2px at 60% 10%, #f4ecff 65%, transparent 67%),
+            radial-gradient(2px 2px at 85% 55%, #f4ecff 65%, transparent 67%),
+            radial-gradient(2px 2px at 30% 65%, #f4ecff 65%, transparent 67%),
+            radial-gradient(2px 2px at 15% 90%, #f4ecff 65%, transparent 67%),
+            radial-gradient(2px 2px at 75% 88%, #f4ecff 65%, transparent 67%),
+            radial-gradient(ellipse 11px 8px at 20% 35%, #24103f 65%, transparent 68%),
+            radial-gradient(ellipse 8px 6px at 55% 15%, #24103f 65%, transparent 68%),
+            radial-gradient(ellipse 10px 7px at 78% 40%, #24103f 65%, transparent 68%),
+            radial-gradient(ellipse 7px 5px at 40% 70%, #24103f 65%, transparent 68%),
+            radial-gradient(ellipse 9px 6px at 90% 75%, #24103f 65%, transparent 68%),
+            radial-gradient(ellipse 7px 5px at 8% 65%, #24103f 65%, transparent 68%),
+            radial-gradient(ellipse 8px 6px at 62% 92%, #24103f 65%, transparent 68%),
+            linear-gradient(160deg, #7a3fc9, #4520a0 55%, #6a2fb0);
+          background-size: 92px 92px;
+        }
+        .framed-inner {
+          border: 4px solid transparent;
+          border-image: linear-gradient(135deg, #e8d9ff, #8b2fc9 40%, #c0c0c8) 1;
+          box-shadow: 0 0 50px rgba(139,47,201,0.4), 0 0 0 1px rgba(232,217,255,0.15) inset;
+        }
         .sparkle-bg {
           background:
             radial-gradient(2px 2px at 20px 30px, rgba(232,184,255,0.5), transparent),
@@ -42,6 +70,8 @@ export default function Layout({
             radial-gradient(2px 2px at 250px 60px, rgba(232,184,255,0.4), transparent),
             radial-gradient(1.5px 1.5px at 320px 200px, rgba(192,192,200,0.4), transparent);
           background-size: 380px 380px;
+          background-color: #0a0612;
+          color: #c0c0c8;
         }
         .thumb-fallback {
           background:
@@ -55,7 +85,9 @@ export default function Layout({
         .nav-link.active { opacity: 1; text-decoration: underline; text-underline-offset: 4px; }
       `}</style>
 
-      <div className="sparkle-bg min-h-screen pb-16">
+      <div className="p-4 sm:p-8 md:p-12">
+      <div className="framed-inner rounded-xl overflow-hidden">
+      <div className="sparkle-bg pb-16">
         {/* TOP NAV */}
         <div className="flex justify-between items-center gap-3 px-5 py-2.5 flex-wrap"
           style={{ background: "linear-gradient(90deg, #5a1a8f, #8b2fc9, #4d3dff)", borderBottom: "2px solid #e8b8ff" }}>
@@ -172,25 +204,62 @@ export default function Layout({
         <div className="max-w-[1180px] mx-auto px-4 grid grid-cols-1 md:grid-cols-[320px_1fr] gap-5 mt-5">
           {/* SIDEBAR */}
           <div>
-            <Module title={settings.brandName}>
+            <Module
+              title={viewingProduct ? "NOW VIEWING" : settings.brandName}
+              headerRight={
+                viewingProduct && (
+                  <button onClick={() => setViewingProductId(null)} className="text-white/80 hover:text-white" title="Back to profile photo">
+                    <X size={13} />
+                  </button>
+                )
+              }
+            >
               <div
                 className="w-full aspect-square rounded border-2 mb-3 flex items-center justify-center font-display text-[11px] tracking-wide relative overflow-hidden"
-                style={{ borderColor: "#c0c0c8", opacity: settings.sidebarGif ? 1 : 0.7 }}
+                style={{
+                  borderColor: viewingProduct ? "#e8b8ff" : "#c0c0c8",
+                  opacity: viewingProduct?.img || settings.sidebarGif ? 1 : 0.7,
+                }}
               >
-                {settings.sidebarGif ? (
+                {viewingProduct ? (
+                  viewingProduct.img ? (
+                    <img src={viewingProduct.img} alt={viewingProduct.name} className="w-full h-full object-cover" />
+                  ) : (
+                    <div className="thumb-fallback w-full h-full flex items-center justify-center text-center px-3">{viewingProduct.name}</div>
+                  )
+                ) : settings.sidebarGif ? (
                   <img src={settings.sidebarGif} alt="profile" className="w-full h-full object-cover" />
                 ) : (
                   <div className="thumb-fallback w-full h-full flex items-center justify-center">✦ MAIN PHOTO ✦</div>
                 )}
               </div>
-              {editMode && (
-                <input
-                  value={settings.sidebarGif}
-                  onChange={(e) => setSettings((s) => ({ ...s, sidebarGif: e.target.value }))}
-                  placeholder="profile image/GIF URL"
-                  className="w-full font-mono text-[10px] bg-black border border-[#8b2fc9] rounded px-2 py-1.5 mb-3 text-[#c0c0c8]"
-                />
+
+              {viewingProduct ? (
+                <div className="mb-3.5">
+                  <div className="flex items-center justify-between gap-2">
+                    <h3 className="font-semibold text-white text-sm">{viewingProduct.name}</h3>
+                    <span className="font-display text-sm whitespace-nowrap" style={{ color: "#e8b8ff" }}>${viewingProduct.price.toFixed(2)}</span>
+                  </div>
+                  <p className="text-xs text-[#c0c0c8]/70 mt-1 leading-relaxed">{viewingProduct.desc}</p>
+                  <button
+                    onClick={() => addToCart(viewingProduct)}
+                    className="w-full mt-2.5 py-1.5 rounded font-mono text-[11px] text-white"
+                    style={{ background: "linear-gradient(90deg, #5a1a8f, #8b2fc9)" }}
+                  >
+                    ADD +
+                  </button>
+                </div>
+              ) : (
+                editMode && (
+                  <input
+                    value={settings.sidebarGif}
+                    onChange={(e) => setSettings((s) => ({ ...s, sidebarGif: e.target.value }))}
+                    placeholder="profile image/GIF URL"
+                    className="w-full font-mono text-[10px] bg-black border border-[#8b2fc9] rounded px-2 py-1.5 mb-3 text-[#c0c0c8]"
+                  />
+                )
               )}
+
               <StatRow label="Est." value="2026" />
               <StatRow label="Vibe:" value="chrome / y2k / after dark" />
               <StatRow label="Ships:" value="discreet, unmarked" />
@@ -264,6 +333,8 @@ export default function Layout({
           <span className="font-display block text-sm tracking-widest text-[#c0c0c8] mb-1.5">{settings.brandName}</span>
           18+ ONLY · AGE VERIFICATION REQUIRED AT CHECKOUT
         </div>
+      </div>
+      </div>
       </div>
 
       <CartDrawer

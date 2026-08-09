@@ -1,6 +1,6 @@
 import { Pencil, Trash2, Check } from "lucide-react";
 
-export default function ProductRow({ product, defaultBorderGif, editMode, isEditing, onEditToggle, onUpdate, onDelete, onAddToCart }) {
+export default function ProductRow({ product, defaultBorderGif, editMode, isEditing, isViewing, onEditToggle, onUpdate, onDelete, onAddToCart, onView }) {
   const activeBorderGif = product.borderGif || defaultBorderGif;
 
   if (isEditing) {
@@ -30,9 +30,12 @@ export default function ProductRow({ product, defaultBorderGif, editMode, isEdit
 
   return (
     <div className="grid grid-cols-[110px_1fr_auto] sm:grid-cols-[130px_1fr_auto] gap-4 items-center rounded-md p-3 border transition-colors"
-      style={{ background: "#0a0612", borderColor: "rgba(192,192,200,0.25)" }}>
-      <div
-        className="w-full aspect-square relative overflow-hidden flex items-center justify-center"
+      style={{ background: "#0a0612", borderColor: isViewing ? "#e8b8ff" : "rgba(192,192,200,0.25)" }}>
+      <button
+        type="button"
+        onClick={onView}
+        title="View this product"
+        className="w-full aspect-square relative overflow-hidden flex items-center justify-center cursor-pointer"
         style={
           activeBorderGif
             ? {
@@ -53,7 +56,7 @@ export default function ProductRow({ product, defaultBorderGif, editMode, isEdit
           </div>
         )}
         <span className="absolute top-1.5 left-2 font-mono text-[9px]" style={{ color: "#e8b8ff" }}>{product.num}</span>
-      </div>
+      </button>
       <div>
         <h3 className="font-semibold text-white text-base sm:text-lg">{product.name}</h3>
         <span className="inline-block text-[0.7rem] tracking-wide uppercase my-1 px-2 py-0.5 rounded-full border" style={{ color: "#8b2fc9", background: "rgba(139,47,201,0.15)", borderColor: "rgba(139,47,201,0.5)" }}>
