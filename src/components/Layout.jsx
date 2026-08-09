@@ -12,6 +12,44 @@ const NAV_ITEMS = [
   { to: "/about", label: "about" },
 ];
 
+// Hand-authored tapering, curved stripes (translate, rotate, length, bow, color)
+// to approximate real zebra print rather than uniform straight bars.
+const ZEBRA_STRIPES = [
+  [10, 20, 15, 120, 14, "#9b3ce0"],
+  [140, 5, 55, 95, 12, "#ff3fb0"],
+  [40, 70, -20, 110, 13, "#aef62c"],
+  [170, 60, 100, 105, 13, "#3f7fff"],
+  [5, 110, 8, 90, 11, "#ff3fb0"],
+  [110, 100, 70, 100, 12, "#9b3ce0"],
+  [190, 130, -55, 110, 13, "#aef62c"],
+  [30, 160, 145, 95, 12, "#3f7fff"],
+  [140, 180, 25, 105, 13, "#9b3ce0"],
+  [-10, 190, -10, 100, 11, "#ff3fb0"],
+  [210, 20, 90, 80, 10, "#aef62c"],
+  [85, 5, -95, 95, 12, "#3f7fff"],
+  [175, 215, 40, 90, 11, "#ff3fb0"],
+  [25, 50, 155, 105, 13, "#aef62c"],
+  [205, 190, 5, 75, 9, "#9b3ce0"],
+  [65, 140, -40, 95, 12, "#3f7fff"],
+  [130, 50, 10, 85, 10, "#ff3fb0"],
+  [5, 235, 15, 90, 11, "#9b3ce0"],
+  [235, 90, 60, 85, 10, "#aef62c"],
+  [100, 230, -15, 95, 12, "#3f7fff"],
+];
+
+const ZEBRA_TILE = 260;
+
+const ZEBRA_SVG = `<svg xmlns='http://www.w3.org/2000/svg' width='${ZEBRA_TILE}' height='${ZEBRA_TILE}' viewBox='0 0 ${ZEBRA_TILE} ${ZEBRA_TILE}'>` +
+  `<rect width='${ZEBRA_TILE}' height='${ZEBRA_TILE}' fill='#0a0612'/>` +
+  ZEBRA_STRIPES.map(([tx, ty, rot, len, bow, color]) => {
+    const half = len / 2;
+    const d = `M0,0 Q${half},${-bow} ${len},0 Q${half},${bow} 0,0 Z`;
+    return `<path transform='translate(${tx},${ty}) rotate(${rot})' d='${d}' fill='${color}'/>`;
+  }).join("") +
+  `</svg>`;
+
+const ZEBRA_BG_URL = `url("data:image/svg+xml,${encodeURIComponent(ZEBRA_SVG)}")`;
+
 export default function Layout({
   products,
   settings,
@@ -33,37 +71,35 @@ export default function Layout({
   const { addToCart, setViewingProductId } = outletContext;
   const viewingProduct = products.find((p) => p.id === viewingProductId) || null;
 
+  const leopardFrameBg = [
+    "radial-gradient(2px 2px at 10% 20%, #ffffff 65%, transparent 67%)",
+    "radial-gradient(2px 2px at 60% 10%, #ffffff 65%, transparent 67%)",
+    "radial-gradient(2px 2px at 85% 55%, #ffffff 65%, transparent 67%)",
+    "radial-gradient(2px 2px at 30% 65%, #ffffff 65%, transparent 67%)",
+    "radial-gradient(2px 2px at 15% 90%, #ffffff 65%, transparent 67%)",
+    "radial-gradient(2px 2px at 75% 88%, #ffffff 65%, transparent 67%)",
+    "radial-gradient(1.5px 1.5px at 45% 40%, #ffffff 65%, transparent 67%)",
+    "radial-gradient(1.5px 1.5px at 95% 15%, #ffffff 65%, transparent 67%)",
+    ZEBRA_BG_URL,
+  ].join(", ");
+  const leopardFrameSize = new Array(8).fill("380px 380px").concat(`${ZEBRA_TILE}px ${ZEBRA_TILE}px`).join(", ");
+
   return (
-    <div className="leopard-frame min-h-screen" style={{ fontFamily: "'Rajdhani', sans-serif" }}>
+    <div
+      className="leopard-frame min-h-screen"
+      style={{
+        fontFamily: "'Rajdhani', sans-serif",
+        backgroundImage: leopardFrameBg,
+        backgroundSize: leopardFrameSize,
+        backgroundColor: "#0a0612",
+      }}
+    >
       <style>{`
         @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700;900&family=Rajdhani:wght@400;500;600;700&family=Share+Tech+Mono&family=Give+You+Glory&display=swap');
         .font-display { font-family: 'Orbitron', sans-serif; }
         .font-mono { font-family: 'Share Tech Mono', monospace; }
         .leopard-frame {
           position: relative;
-          background:
-            /* glitter fleck layer */
-            radial-gradient(2px 2px at 10% 20%, #ffffff 65%, transparent 67%),
-            radial-gradient(2px 2px at 60% 10%, #ffffff 65%, transparent 67%),
-            radial-gradient(2px 2px at 85% 55%, #ffffff 65%, transparent 67%),
-            radial-gradient(2px 2px at 30% 65%, #ffffff 65%, transparent 67%),
-            radial-gradient(2px 2px at 15% 90%, #ffffff 65%, transparent 67%),
-            radial-gradient(2px 2px at 75% 88%, #ffffff 65%, transparent 67%),
-            radial-gradient(1.5px 1.5px at 45% 40%, #ffffff 65%, transparent 67%),
-            radial-gradient(1.5px 1.5px at 95% 15%, #ffffff 65%, transparent 67%),
-            /* rainbow zebra stripes: violet, pink, lime, blue, separated by black */
-            repeating-linear-gradient(124deg,
-              #0a0612 0px, #0a0612 7px,
-              #9b3ce0 7px, #9b3ce0 24px,
-              #0a0612 24px, #0a0612 31px,
-              #ff3fb0 31px, #ff3fb0 45px,
-              #0a0612 45px, #0a0612 52px,
-              #aef62c 52px, #aef62c 64px,
-              #0a0612 64px, #0a0612 71px,
-              #3f7fff 71px, #3f7fff 88px,
-              #0a0612 88px, #0a0612 96px
-            );
-          background-size: 380px 380px, 380px 380px, 380px 380px, 380px 380px, 380px 380px, 380px 380px, 380px 380px, 380px 380px, 100% 100%;
         }
         .glitter-word {
           position: absolute;
