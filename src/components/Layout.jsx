@@ -12,43 +12,75 @@ const NAV_ITEMS = [
   { to: "/about", label: "about" },
 ];
 
-// Hand-authored tapering, curved stripes (translate, rotate, length, bow, color)
-// to approximate real zebra print rather than uniform straight bars.
-const ZEBRA_STRIPES = [
-  [10, 20, 15, 120, 14, "#9b3ce0"],
-  [140, 5, 55, 95, 12, "#ff3fb0"],
-  [40, 70, -20, 110, 13, "#aef62c"],
-  [170, 60, 100, 105, 13, "#3f7fff"],
-  [5, 110, 8, 90, 11, "#ff3fb0"],
-  [110, 100, 70, 100, 12, "#9b3ce0"],
-  [190, 130, -55, 110, 13, "#aef62c"],
-  [30, 160, 145, 95, 12, "#3f7fff"],
-  [140, 180, 25, 105, 13, "#9b3ce0"],
-  [-10, 190, -10, 100, 11, "#ff3fb0"],
-  [210, 20, 90, 80, 10, "#aef62c"],
-  [85, 5, -95, 95, 12, "#3f7fff"],
-  [175, 215, 40, 90, 11, "#ff3fb0"],
-  [25, 50, 155, 105, 13, "#aef62c"],
-  [205, 190, 5, 75, 9, "#9b3ce0"],
-  [65, 140, -40, 95, 12, "#3f7fff"],
-  [130, 50, 10, 85, 10, "#ff3fb0"],
-  [5, 235, 15, 90, 11, "#9b3ce0"],
-  [235, 90, 60, 85, 10, "#aef62c"],
-  [100, 230, -15, 95, 12, "#3f7fff"],
-];
+// Deterministic PRNG so the generated pattern is stable across renders/builds.
+function mulberry32(seed) {
+  return function () {
+    seed |= 0;
+    seed = (seed + 0x6d2b79f5) | 0;
+    let t = Math.imul(seed ^ (seed >>> 15), 1 | seed);
+    t = (t + Math.imul(t ^ (t >>> 7), 61 | t)) ^ t;
+    return ((t ^ (t >>> 14)) >>> 0) / 4294967296;
+  };
+}
 
-const ZEBRA_TILE = 260;
+// A jagged, tapering stripe polygon (pointed at both ends, ragged fur-like edges)
+// centered on a wavy spine — this is what makes it read as animal print rather
+// than a smooth lens/leaf shape.
+function buildStripePath(rand, length, maxWidth, segments) {
+  const spine = [];
+  const waveAmp = maxWidth * (0.35 + rand() * 0.4);
+  const wavePhase = rand() * Math.PI * 2;
+  const waveFreq = 1.2 + rand() * 1.4;
+  for (let i = 0; i <= segments; i++) {
+    const t = i / segments;
+    const x = t * length;
+    const y = Math.sin(t * Math.PI * waveFreq + wavePhase) * waveAmp;
+    spine.push([x, y]);
+  }
+  const top = [];
+  const bottom = [];
+  for (let i = 0; i <= segments; i++) {
+    const t = i / segments;
+    const [x, y] = spine[i];
+    const taper = Math.pow(Math.sin(t * Math.PI), 0.7);
+    const jag = i === 0 || i === segments ? 0 : (rand() - 0.5) * maxWidth * 0.5;
+    const w = Math.max(0, (taper * maxWidth) / 2 + jag);
+    top.push([x, y - w]);
+    bottom.push([x, y + w]);
+  }
+  let d = `M ${top[0][0].toFixed(1)},${top[0][1].toFixed(1)} `;
+  for (let i = 1; i <= segments; i++) d += `L ${top[i][0].toFixed(1)},${top[i][1].toFixed(1)} `;
+  for (let i = segments; i >= 0; i--) d += `L ${bottom[i][0].toFixed(1)},${bottom[i][1].toFixed(1)} `;
+  return d + "Z";
+}
 
-const ZEBRA_SVG = `<svg xmlns='http://www.w3.org/2000/svg' width='${ZEBRA_TILE}' height='${ZEBRA_TILE}' viewBox='0 0 ${ZEBRA_TILE} ${ZEBRA_TILE}'>` +
-  `<rect width='${ZEBRA_TILE}' height='${ZEBRA_TILE}' fill='#0a0612'/>` +
-  ZEBRA_STRIPES.map(([tx, ty, rot, len, bow, color]) => {
-    const half = len / 2;
-    const d = `M0,0 Q${half},${-bow} ${len},0 Q${half},${bow} 0,0 Z`;
-    return `<path transform='translate(${tx},${ty}) rotate(${rot})' d='${d}' fill='${color}'/>`;
-  }).join("") +
-  `</svg>`;
+const ZEBRA_COLORS = ["#9b3ce0", "#ff3fb0", "#aef62c", "#3f7fff"];
+const ZEBRA_TILE = 320;
+const ZEBRA_FLOW_ANGLE = 118; // dominant "fur direction" the stripes generally follow
 
-const ZEBRA_BG_URL = `url("data:image/svg+xml,${encodeURIComponent(ZEBRA_SVG)}")`;
+function buildZebraSvg() {
+  const rand = mulberry32(20260808);
+  const stripes = [];
+  const count = 46;
+  for (let i = 0; i < count; i++) {
+    const tx = rand() * ZEBRA_TILE;
+    const ty = rand() * ZEBRA_TILE;
+    const rot = ZEBRA_FLOW_ANGLE + (rand() - 0.5) * 55;
+    const length = 55 + rand() * 90;
+    const maxWidth = 10 + rand() * 16;
+    const color = ZEBRA_COLORS[i % ZEBRA_COLORS.length];
+    const d = buildStripePath(rand, length, maxWidth, 8);
+    stripes.push(`<path transform='translate(${tx.toFixed(1)},${ty.toFixed(1)}) rotate(${rot.toFixed(1)})' d='${d}' fill='${color}'/>`);
+  }
+  return (
+    `<svg xmlns='http://www.w3.org/2000/svg' width='${ZEBRA_TILE}' height='${ZEBRA_TILE}' viewBox='0 0 ${ZEBRA_TILE} ${ZEBRA_TILE}'>` +
+    `<rect width='${ZEBRA_TILE}' height='${ZEBRA_TILE}' fill='#0a0612'/>` +
+    stripes.join("") +
+    `</svg>`
+  );
+}
+
+const ZEBRA_BG_URL = `url("data:image/svg+xml,${encodeURIComponent(buildZebraSvg())}")`;
 
 export default function Layout({
   products,
