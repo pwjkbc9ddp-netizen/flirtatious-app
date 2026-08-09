@@ -36,28 +36,51 @@ export default function Layout({
   return (
     <div className="leopard-frame min-h-screen" style={{ fontFamily: "'Rajdhani', sans-serif" }}>
       <style>{`
-        @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700;900&family=Rajdhani:wght@400;500;600;700&family=Share+Tech+Mono&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700;900&family=Rajdhani:wght@400;500;600;700&family=Share+Tech+Mono&family=Give+You+Glory&display=swap');
         .font-display { font-family: 'Orbitron', sans-serif; }
         .font-mono { font-family: 'Share Tech Mono', monospace; }
         .leopard-frame {
+          position: relative;
           background:
-            radial-gradient(2px 2px at 10% 20%, #f4ecff 65%, transparent 67%),
-            radial-gradient(2px 2px at 60% 10%, #f4ecff 65%, transparent 67%),
-            radial-gradient(2px 2px at 85% 55%, #f4ecff 65%, transparent 67%),
-            radial-gradient(2px 2px at 30% 65%, #f4ecff 65%, transparent 67%),
-            radial-gradient(2px 2px at 15% 90%, #f4ecff 65%, transparent 67%),
-            radial-gradient(2px 2px at 75% 88%, #f4ecff 65%, transparent 67%),
-            radial-gradient(ellipse 11px 8px at 20% 35%, #24103f 65%, transparent 68%),
-            radial-gradient(ellipse 8px 6px at 55% 15%, #24103f 65%, transparent 68%),
-            radial-gradient(ellipse 10px 7px at 78% 40%, #24103f 65%, transparent 68%),
-            radial-gradient(ellipse 7px 5px at 40% 70%, #24103f 65%, transparent 68%),
-            radial-gradient(ellipse 9px 6px at 90% 75%, #24103f 65%, transparent 68%),
-            radial-gradient(ellipse 7px 5px at 8% 65%, #24103f 65%, transparent 68%),
-            radial-gradient(ellipse 8px 6px at 62% 92%, #24103f 65%, transparent 68%),
-            linear-gradient(160deg, #7a3fc9, #4520a0 55%, #6a2fb0);
-          background-size: 92px 92px;
+            /* glitter fleck layer */
+            radial-gradient(2px 2px at 10% 20%, #ffffff 65%, transparent 67%),
+            radial-gradient(2px 2px at 60% 10%, #ffffff 65%, transparent 67%),
+            radial-gradient(2px 2px at 85% 55%, #ffffff 65%, transparent 67%),
+            radial-gradient(2px 2px at 30% 65%, #ffffff 65%, transparent 67%),
+            radial-gradient(2px 2px at 15% 90%, #ffffff 65%, transparent 67%),
+            radial-gradient(2px 2px at 75% 88%, #ffffff 65%, transparent 67%),
+            radial-gradient(1.5px 1.5px at 45% 40%, #ffffff 65%, transparent 67%),
+            radial-gradient(1.5px 1.5px at 95% 15%, #ffffff 65%, transparent 67%),
+            /* rainbow zebra stripes: violet, pink, lime, blue, separated by black */
+            repeating-linear-gradient(124deg,
+              #0a0612 0px, #0a0612 7px,
+              #9b3ce0 7px, #9b3ce0 24px,
+              #0a0612 24px, #0a0612 31px,
+              #ff3fb0 31px, #ff3fb0 45px,
+              #0a0612 45px, #0a0612 52px,
+              #aef62c 52px, #aef62c 64px,
+              #0a0612 64px, #0a0612 71px,
+              #3f7fff 71px, #3f7fff 88px,
+              #0a0612 88px, #0a0612 96px
+            );
+          background-size: 380px 380px, 380px 380px, 380px 380px, 380px 380px, 380px 380px, 380px 380px, 380px 380px, 380px 380px, 100% 100%;
+        }
+        .glitter-word {
+          position: absolute;
+          font-family: 'Give You Glory', cursive;
+          background: linear-gradient(115deg, #9a9aa8 0%, #ffffff 22%, #d4d4de 40%, #ffffff 58%, #a8a8b6 76%, #ffffff 100%);
+          -webkit-background-clip: text;
+          background-clip: text;
+          color: transparent;
+          text-shadow: 0 0 8px rgba(255,255,255,0.4);
+          white-space: nowrap;
+          pointer-events: none;
+          user-select: none;
+          z-index: 1;
         }
         .framed-inner {
+          position: relative;
+          z-index: 2;
           border: 4px solid transparent;
           border-image: linear-gradient(135deg, #e8d9ff, #8b2fc9 40%, #c0c0c8) 1;
           box-shadow: 0 0 50px rgba(139,47,201,0.4), 0 0 0 1px rgba(232,217,255,0.15) inset;
@@ -84,6 +107,46 @@ export default function Layout({
         .nav-link:hover { opacity: 1; }
         .nav-link.active { opacity: 1; text-decoration: underline; text-underline-offset: 4px; }
       `}</style>
+
+      {[
+        { top: "0.5%", left: "2%", rotate: -12, size: "0.75rem" },
+        { top: "1%", left: "20%", rotate: 5, size: "0.6rem" },
+        { top: "0.5%", left: "38%", rotate: -6, size: "0.7rem" },
+        { top: "1%", left: "55%", rotate: 8, size: "0.65rem" },
+        { top: "0.5%", left: "70%", rotate: -9, size: "0.75rem" },
+        { top: "1%", left: "86%", rotate: 6, size: "0.6rem" },
+        { top: "10%", left: "0.2%", rotate: -90, size: "0.65rem" },
+        { top: "28%", left: "0.2%", rotate: -90, size: "0.6rem" },
+        { top: "46%", left: "0.2%", rotate: -90, size: "0.7rem" },
+        { top: "64%", left: "0.2%", rotate: -90, size: "0.6rem" },
+        { top: "82%", left: "0.2%", rotate: -90, size: "0.65rem" },
+        { top: "10%", right: "0.2%", rotate: 90, size: "0.65rem" },
+        { top: "28%", right: "0.2%", rotate: 90, size: "0.6rem" },
+        { top: "46%", right: "0.2%", rotate: 90, size: "0.7rem" },
+        { top: "64%", right: "0.2%", rotate: 90, size: "0.6rem" },
+        { top: "82%", right: "0.2%", rotate: 90, size: "0.65rem" },
+        { bottom: "0.5%", left: "4%", rotate: 9, size: "0.7rem" },
+        { bottom: "1%", left: "22%", rotate: -7, size: "0.6rem" },
+        { bottom: "0.5%", left: "40%", rotate: 5, size: "0.75rem" },
+        { bottom: "1%", left: "58%", rotate: -8, size: "0.65rem" },
+        { bottom: "0.5%", left: "74%", rotate: 10, size: "0.7rem" },
+        { bottom: "1%", left: "90%", rotate: -5, size: "0.6rem" },
+      ].map((pos, i) => (
+        <span
+          key={i}
+          className="glitter-word"
+          style={{
+            top: pos.top,
+            bottom: pos.bottom,
+            left: pos.left,
+            right: pos.right,
+            fontSize: pos.size,
+            transform: `rotate(${pos.rotate}deg)`,
+          }}
+        >
+          flirtatious
+        </span>
+      ))}
 
       <div className="p-4 sm:p-8 md:p-12">
       <div className="framed-inner rounded-xl overflow-hidden">
