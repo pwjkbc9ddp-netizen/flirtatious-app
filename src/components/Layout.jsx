@@ -50,6 +50,8 @@ export default function Layout({
         .font-mono { font-family: 'Share Tech Mono', monospace; }
         .leopard-frame {
           position: relative;
+          z-index: 0;
+          isolation: isolate;
           background-color: #0a0612;
         }
         .leopard-frame::before {
@@ -57,35 +59,33 @@ export default function Layout({
           position: absolute;
           inset: 0;
           background-image: var(--zebra-bg);
-          background-size: 260px auto;
+          background-size: 150px auto;
           background-repeat: repeat;
+          z-index: -2;
+          pointer-events: none;
+        }
+        .leopard-frame::after {
+          content: "";
+          position: absolute;
+          inset: 0;
+          background: linear-gradient(135deg, #ff2fb3, #9b3ce0 25%, #3f7fff 50%, #00e5ff 68%, #aef62c 88%, #ff2fb3 100%);
+          background-size: 220% 220%;
+          mix-blend-mode: color;
           z-index: -1;
           pointer-events: none;
-          animation: hueCycle 22s linear infinite;
+          animation: gradientSweep 20s ease-in-out infinite;
         }
-        @keyframes hueCycle {
-          0% { filter: hue-rotate(0deg); }
-          100% { filter: hue-rotate(360deg); }
-        }
-        .glitter-word {
-          position: absolute;
-          font-family: 'Give You Glory', cursive;
-          background: linear-gradient(115deg, #9a9aa8 0%, #ffffff 22%, #d4d4de 40%, #ffffff 58%, #a8a8b6 76%, #ffffff 100%);
-          -webkit-background-clip: text;
-          background-clip: text;
-          color: transparent;
-          text-shadow: 0 0 8px rgba(255,255,255,0.4);
-          white-space: nowrap;
-          pointer-events: none;
-          user-select: none;
-          z-index: 1;
+        @keyframes gradientSweep {
+          0% { background-position: 0% 0%; }
+          50% { background-position: 100% 100%; }
+          100% { background-position: 0% 0%; }
         }
         .framed-inner {
           position: relative;
           z-index: 2;
           border: 4px solid transparent;
           border-image: linear-gradient(135deg, #e8d9ff, #8b2fc9 40%, #c0c0c8) 1;
-          box-shadow: 0 0 50px rgba(139,47,201,0.4), 0 0 0 1px rgba(232,217,255,0.15) inset;
+          box-shadow: 0 0 10px rgba(139,47,201,0.3), 0 0 0 1px rgba(232,217,255,0.15) inset;
         }
         .sparkle-bg {
           background:
@@ -110,47 +110,7 @@ export default function Layout({
         .nav-link.active { opacity: 1; text-decoration: underline; text-underline-offset: 4px; }
       `}</style>
 
-      {[
-        { top: "0.5%", left: "2%", rotate: -12, size: "0.75rem" },
-        { top: "1%", left: "20%", rotate: 5, size: "0.6rem" },
-        { top: "0.5%", left: "38%", rotate: -6, size: "0.7rem" },
-        { top: "1%", left: "55%", rotate: 8, size: "0.65rem" },
-        { top: "0.5%", left: "70%", rotate: -9, size: "0.75rem" },
-        { top: "1%", left: "86%", rotate: 6, size: "0.6rem" },
-        { top: "10%", left: "0.2%", rotate: -90, size: "0.65rem" },
-        { top: "28%", left: "0.2%", rotate: -90, size: "0.6rem" },
-        { top: "46%", left: "0.2%", rotate: -90, size: "0.7rem" },
-        { top: "64%", left: "0.2%", rotate: -90, size: "0.6rem" },
-        { top: "82%", left: "0.2%", rotate: -90, size: "0.65rem" },
-        { top: "10%", right: "0.2%", rotate: 90, size: "0.65rem" },
-        { top: "28%", right: "0.2%", rotate: 90, size: "0.6rem" },
-        { top: "46%", right: "0.2%", rotate: 90, size: "0.7rem" },
-        { top: "64%", right: "0.2%", rotate: 90, size: "0.6rem" },
-        { top: "82%", right: "0.2%", rotate: 90, size: "0.65rem" },
-        { bottom: "0.5%", left: "4%", rotate: 9, size: "0.7rem" },
-        { bottom: "1%", left: "22%", rotate: -7, size: "0.6rem" },
-        { bottom: "0.5%", left: "40%", rotate: 5, size: "0.75rem" },
-        { bottom: "1%", left: "58%", rotate: -8, size: "0.65rem" },
-        { bottom: "0.5%", left: "74%", rotate: 10, size: "0.7rem" },
-        { bottom: "1%", left: "90%", rotate: -5, size: "0.6rem" },
-      ].map((pos, i) => (
-        <span
-          key={i}
-          className="glitter-word"
-          style={{
-            top: pos.top,
-            bottom: pos.bottom,
-            left: pos.left,
-            right: pos.right,
-            fontSize: pos.size,
-            transform: `rotate(${pos.rotate}deg)`,
-          }}
-        >
-          flirtatious
-        </span>
-      ))}
-
-      <div className="p-4 sm:p-8 md:p-12">
+      <div className="p-8 sm:p-14 md:p-20">
       <div className="framed-inner rounded-xl overflow-hidden">
       <div className="sparkle-bg pb-16">
         {/* TOP NAV */}
