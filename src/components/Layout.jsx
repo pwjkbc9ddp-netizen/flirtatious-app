@@ -1,9 +1,11 @@
-import { Outlet, NavLink } from "react-router-dom";
+import { Outlet, NavLink, useLocation } from "react-router-dom";
 import { Pencil, ShoppingBag, Check, X } from "lucide-react";
 import Module from "./Module.jsx";
 import { StatRow, SidebarLink } from "./Misc.jsx";
 import CartDrawer from "./CartDrawer.jsx";
 import zebraPrintImg from "../assets/zebra-print-neon.jpg";
+
+const ZEBRA_BG_URL = `url("${zebraPrintImg}")`;
 
 const NAV_ITEMS = [
   { to: "/", label: "home", end: true },
@@ -13,7 +15,43 @@ const NAV_ITEMS = [
   { to: "/about", label: "about" },
 ];
 
-const ZEBRA_BG_URL = `url("${zebraPrintImg}")`;
+// Blocky pixel-art heart, tiled as a repeating pattern for the border.
+const HEART_PIXELS = [
+  "0110110",
+  "1111111",
+  "1111111",
+  "0111110",
+  "0011100",
+  "0001000",
+];
+const PX = 4;
+const HEART_W = HEART_PIXELS[0].length * PX;
+const HEART_H = HEART_PIXELS.length * PX;
+const TILE_W = HEART_W + 22;
+const TILE_H = HEART_H + 22;
+const OFFSET_X = (TILE_W - HEART_W) / 2;
+const OFFSET_Y = (TILE_H - HEART_H) / 2;
+
+function buildHeartSvg() {
+  const rects = [];
+  HEART_PIXELS.forEach((row, y) => {
+    row.split("").forEach((cell, x) => {
+      if (cell === "1") {
+        rects.push(
+          `<rect x="${OFFSET_X + x * PX}" y="${OFFSET_Y + y * PX}" width="${PX}" height="${PX}" fill="#ff1a3d"/>`
+        );
+      }
+    });
+  });
+  return (
+    `<svg xmlns='http://www.w3.org/2000/svg' width='${TILE_W}' height='${TILE_H}' viewBox='0 0 ${TILE_W} ${TILE_H}'>` +
+    `<rect width='${TILE_W}' height='${TILE_H}' fill='#0a000f'/>` +
+    rects.join("") +
+    `</svg>`
+  );
+}
+
+const HEART_BG_URL = `url("data:image/svg+xml,${encodeURIComponent(buildHeartSvg())}")`;
 
 export default function Layout({
   products,
@@ -35,12 +73,14 @@ export default function Layout({
 }) {
   const { addToCart, setViewingProductId } = outletContext;
   const viewingProduct = products.find((p) => p.id === viewingProductId) || null;
+  const isHome = useLocation().pathname === "/";
 
   return (
     <div
-      className="leopard-frame min-h-screen"
+      className={`leopard-frame min-h-screen ${isHome ? "home-frame" : "zebra-frame"}`}
       style={{
         fontFamily: "'Rajdhani', sans-serif",
+        "--heart-bg": HEART_BG_URL,
         "--zebra-bg": ZEBRA_BG_URL,
       }}
     >
@@ -64,13 +104,26 @@ export default function Layout({
           content: "";
           position: absolute;
           inset: 0;
-          background-image: var(--zebra-bg);
-          background-size: 150px auto;
           background-repeat: repeat;
           z-index: -2;
           pointer-events: none;
         }
-        .leopard-frame::after {
+        .home-frame::before {
+          background-image: var(--heart-bg);
+          animation: heartBeat 1.4s ease-in-out infinite;
+        }
+        @keyframes heartBeat {
+          0%, 100% { background-size: 50px 50px; }
+          14% { background-size: 58px 58px; }
+          28% { background-size: 50px 50px; }
+          42% { background-size: 62px 62px; }
+          70% { background-size: 50px 50px; }
+        }
+        .zebra-frame::before {
+          background-image: var(--zebra-bg);
+          background-size: 150px auto;
+        }
+        .zebra-frame::after {
           content: "";
           position: absolute;
           inset: 0;
@@ -100,7 +153,7 @@ export default function Layout({
             radial-gradient(2px 2px at 250px 60px, rgba(223,0,255,0.4), transparent),
             radial-gradient(1.5px 1.5px at 320px 200px, rgba(192,192,200,0.4), transparent);
           background-size: 380px 380px;
-          background-color: #0a000f;
+          background-color: transparent;
           color: #c0c0c8;
         }
         .thumb-fallback {
