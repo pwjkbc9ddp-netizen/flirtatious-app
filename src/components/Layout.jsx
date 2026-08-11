@@ -45,9 +45,15 @@ export default function Layout({
       }}
     >
       <style>{`
-        @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700;900&family=Rajdhani:wght@400;500;600;700&family=Share+Tech+Mono&family=Give+You+Glory&display=swap');
-        .font-display { font-family: 'Orbitron', sans-serif; }
-        .font-mono { font-family: 'Share Tech Mono', monospace; }
+        @import url('https://fonts.googleapis.com/css2?family=Silkscreen:wght@400;700&family=Rajdhani:wght@400;500;600;700&display=swap');
+        .font-display {
+          font-family: 'Silkscreen', monospace;
+          letter-spacing: 0.03em;
+        }
+        .font-mono {
+          font-family: 'Silkscreen', monospace;
+          letter-spacing: 0.02em;
+        }
         .leopard-frame {
           position: relative;
           z-index: 0;
