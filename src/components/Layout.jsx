@@ -112,18 +112,66 @@ export default function Layout({
         .nav-link { opacity: 0.75; transition: opacity 0.15s ease; }
         .nav-link:hover { opacity: 1; }
         .nav-link.active { opacity: 1; text-decoration: underline; text-underline-offset: 4px; }
+        .chrome-silver {
+          position: relative;
+          overflow: hidden;
+          background: linear-gradient(120deg, #3a3a40 0%, #6e6e78 18%, #9a9aa4 28%, #55555c 42%, #232326 58%, #63636c 72%, #86868f 85%, #45454c 100%);
+          background-size: 220% 220%;
+          animation: chromeShift 9s ease-in-out infinite;
+        }
+        .chrome-silver-content {
+          position: relative;
+          z-index: 2;
+        }
+        @keyframes chromeShift {
+          0% { background-position: 0% 50%; }
+          50% { background-position: 100% 50%; }
+          100% { background-position: 0% 50%; }
+        }
+        .chrome-silver::before,
+        .chrome-silver::after {
+          content: "";
+          position: absolute;
+          inset: 0;
+          z-index: 1;
+          pointer-events: none;
+          background-image:
+            radial-gradient(1.4px 1.4px at 8% 25%, #000 55%, transparent 58%),
+            radial-gradient(1px 1px at 22% 70%, #000 55%, transparent 58%),
+            radial-gradient(1.7px 1.7px at 38% 15%, #000 55%, transparent 58%),
+            radial-gradient(1.1px 1.1px at 52% 55%, #000 55%, transparent 58%),
+            radial-gradient(1.4px 1.4px at 67% 80%, #000 55%, transparent 58%),
+            radial-gradient(1px 1px at 80% 30%, #000 55%, transparent 58%),
+            radial-gradient(1.6px 1.6px at 92% 62%, #000 55%, transparent 58%),
+            radial-gradient(1.2px 1.2px at 14% 92%, #000 55%, transparent 58%);
+          background-size: 70px 70px;
+        }
+        .chrome-silver::before { animation: glitterA 2.2s ease-in-out infinite; }
+        .chrome-silver::after { animation: glitterB 3.1s ease-in-out infinite; background-position: 20px 35px; }
+        @keyframes glitterA {
+          0%, 100% { opacity: 0.15; }
+          30% { opacity: 0.65; }
+          55% { opacity: 0.1; }
+          80% { opacity: 0.5; }
+        }
+        @keyframes glitterB {
+          0%, 100% { opacity: 0.55; }
+          20% { opacity: 0.1; }
+          50% { opacity: 0.6; }
+          75% { opacity: 0.2; }
+        }
       `}</style>
 
       <div className="p-8 sm:p-14 md:p-20">
       <div className="framed-inner rounded-xl overflow-hidden">
       <div className="sparkle-bg pb-16">
         {/* TOP NAV */}
-        <div className="flex justify-between items-center gap-3 px-5 py-2.5 flex-wrap"
-          style={{ background: "#8000ff", borderBottom: "2px solid #df00ff" }}>
-          <NavLink to="/" className="font-display font-black text-white tracking-widest text-sm sm:text-base" style={{ textShadow: "0 0 8px rgba(0,0,0,0.4)" }}>
+        <div className="chrome-silver flex justify-between items-center gap-3 px-5 py-2.5 flex-wrap"
+          style={{ borderBottom: "2px solid #df00ff" }}>
+          <NavLink to="/" className="chrome-silver-content font-display font-black tracking-widest text-sm sm:text-base" style={{ color: "#f4f4f6", textShadow: "0 0 8px rgba(0,0,0,0.6)" }}>
             ✦ {settings.brandName} ✦
           </NavLink>
-          <div className="font-mono text-[11px] tracking-wide flex gap-4 flex-wrap text-white/90">
+          <div className="chrome-silver-content font-mono text-[11px] tracking-wide flex gap-4 flex-wrap" style={{ color: "#f4f4f6" }}>
             {NAV_ITEMS.map((item) => (
               <NavLink
                 key={item.to}
@@ -135,7 +183,7 @@ export default function Layout({
               </NavLink>
             ))}
           </div>
-          <div className="flex items-center gap-3">
+          <div className="chrome-silver-content flex items-center gap-3">
             <button
               onClick={() => setEditMode((v) => !v)}
               className="font-mono text-[11px] tracking-wide px-3 py-1.5 rounded border transition-colors flex items-center gap-1.5"
@@ -147,7 +195,7 @@ export default function Layout({
             >
               <Pencil size={12} /> {editMode ? "editing" : "edit mode"}
             </button>
-            <button onClick={() => setCartOpen(true)} className="relative text-white">
+            <button onClick={() => setCartOpen(true)} className="relative" style={{ color: "#f4f4f6" }}>
               <ShoppingBag size={20} />
               {cartCount > 0 && (
                 <span className="absolute -top-2 -right-2 bg-[#df00ff] text-[#0a000f] text-[10px] font-bold rounded-full w-4 h-4 flex items-center justify-center">
@@ -275,10 +323,9 @@ export default function Layout({
                   <p className="text-xs text-[#c0c0c8]/70 mt-1 leading-relaxed">{viewingProduct.desc}</p>
                   <button
                     onClick={() => addToCart(viewingProduct)}
-                    className="w-full mt-2.5 py-1.5 rounded font-mono text-[11px] text-white"
-                    style={{ background: "#8000ff" }}
+                    className="chrome-silver w-full mt-2.5 py-1.5 rounded font-mono text-[11px]"
                   >
-                    ADD +
+                    <span className="chrome-silver-content" style={{ color: "#f4f4f6" }}>ADD +</span>
                   </button>
                 </div>
               ) : (

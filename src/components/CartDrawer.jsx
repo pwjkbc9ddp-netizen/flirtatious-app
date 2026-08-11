@@ -11,9 +11,9 @@ export default function CartDrawer({ open, onClose, cart, cartCount, cartTotal, 
         className="relative w-full max-w-sm h-full flex flex-col"
         style={{ background: "#170a20", borderLeft: "1px solid rgba(192,192,200,0.35)" }}
       >
-        <div className="flex justify-between items-center px-4 py-3" style={{ background: "#8000ff" }}>
-          <span className="font-display text-white text-xs tracking-widest">YOUR BAG ✦ {cartCount}</span>
-          <button onClick={onClose} className="text-white"><X size={18} /></button>
+        <div className="chrome-silver flex justify-between items-center px-4 py-3">
+          <span className="chrome-silver-content font-display text-xs tracking-widest" style={{ color: "#f4f4f6" }}>YOUR BAG ✦ {cartCount}</span>
+          <button onClick={onClose} className="chrome-silver-content" style={{ color: "#f4f4f6" }}><X size={18} /></button>
         </div>
         <div className="flex-1 overflow-y-auto p-4 flex flex-col gap-3">
           {cart.length === 0 && (
@@ -43,10 +43,9 @@ export default function CartDrawer({ open, onClose, cart, cartCount, cartTotal, 
           </div>
           <button
             disabled={cart.length === 0}
-            className="w-full py-2.5 rounded font-mono text-xs tracking-wide text-white disabled:opacity-40"
-            style={{ background: "#8000ff" }}
+            className="chrome-silver w-full py-2.5 rounded font-mono text-xs tracking-wide disabled:opacity-40"
           >
-            CHECKOUT (demo — no payment connected)
+            <span className="chrome-silver-content" style={{ color: "#f4f4f6" }}>CHECKOUT (demo — no payment connected)</span>
           </button>
         </div>
       </div>

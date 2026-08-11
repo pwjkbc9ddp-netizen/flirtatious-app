@@ -71,8 +71,8 @@ export default function ProductRow({ product, defaultBorderGif, editMode, isEdit
             <Pencil size={11} /> edit
           </button>
         ) : (
-          <button onClick={onAddToCart} className="font-mono text-[11px] px-3.5 py-1.5 rounded text-white" style={{ background: "#8000ff" }}>
-            ADD +
+          <button onClick={onAddToCart} className="chrome-silver font-mono text-[11px] px-3.5 py-1.5 rounded">
+            <span className="chrome-silver-content" style={{ color: "#f4f4f6" }}>ADD +</span>
           </button>
         )}
       </div>
