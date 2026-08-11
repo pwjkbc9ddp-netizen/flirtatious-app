@@ -3,6 +3,7 @@ import { Pencil, ShoppingBag, Check, X } from "lucide-react";
 import Module from "./Module.jsx";
 import { StatRow, SidebarLink } from "./Misc.jsx";
 import CartDrawer from "./CartDrawer.jsx";
+import zebraPrintImg from "../assets/zebra-print-neon.jpg";
 
 const NAV_ITEMS = [
   { to: "/", label: "home", end: true },
@@ -12,75 +13,7 @@ const NAV_ITEMS = [
   { to: "/about", label: "about" },
 ];
 
-// Deterministic PRNG so the generated pattern is stable across renders/builds.
-function mulberry32(seed) {
-  return function () {
-    seed |= 0;
-    seed = (seed + 0x6d2b79f5) | 0;
-    let t = Math.imul(seed ^ (seed >>> 15), 1 | seed);
-    t = (t + Math.imul(t ^ (t >>> 7), 61 | t)) ^ t;
-    return ((t ^ (t >>> 14)) >>> 0) / 4294967296;
-  };
-}
-
-// A jagged, tapering stripe polygon (pointed at both ends, ragged fur-like edges)
-// centered on a wavy spine — this is what makes it read as animal print rather
-// than a smooth lens/leaf shape.
-function buildStripePath(rand, length, maxWidth, segments) {
-  const spine = [];
-  const waveAmp = maxWidth * (0.35 + rand() * 0.4);
-  const wavePhase = rand() * Math.PI * 2;
-  const waveFreq = 1.2 + rand() * 1.4;
-  for (let i = 0; i <= segments; i++) {
-    const t = i / segments;
-    const x = t * length;
-    const y = Math.sin(t * Math.PI * waveFreq + wavePhase) * waveAmp;
-    spine.push([x, y]);
-  }
-  const top = [];
-  const bottom = [];
-  for (let i = 0; i <= segments; i++) {
-    const t = i / segments;
-    const [x, y] = spine[i];
-    const taper = Math.pow(Math.sin(t * Math.PI), 0.7);
-    const jag = i === 0 || i === segments ? 0 : (rand() - 0.5) * maxWidth * 0.5;
-    const w = Math.max(0, (taper * maxWidth) / 2 + jag);
-    top.push([x, y - w]);
-    bottom.push([x, y + w]);
-  }
-  let d = `M ${top[0][0].toFixed(1)},${top[0][1].toFixed(1)} `;
-  for (let i = 1; i <= segments; i++) d += `L ${top[i][0].toFixed(1)},${top[i][1].toFixed(1)} `;
-  for (let i = segments; i >= 0; i--) d += `L ${bottom[i][0].toFixed(1)},${bottom[i][1].toFixed(1)} `;
-  return d + "Z";
-}
-
-const ZEBRA_COLORS = ["#9b3ce0", "#ff3fb0", "#aef62c", "#3f7fff"];
-const ZEBRA_TILE = 320;
-const ZEBRA_FLOW_ANGLE = 118; // dominant "fur direction" the stripes generally follow
-
-function buildZebraSvg() {
-  const rand = mulberry32(20260808);
-  const stripes = [];
-  const count = 46;
-  for (let i = 0; i < count; i++) {
-    const tx = rand() * ZEBRA_TILE;
-    const ty = rand() * ZEBRA_TILE;
-    const rot = ZEBRA_FLOW_ANGLE + (rand() - 0.5) * 55;
-    const length = 55 + rand() * 90;
-    const maxWidth = 10 + rand() * 16;
-    const color = ZEBRA_COLORS[i % ZEBRA_COLORS.length];
-    const d = buildStripePath(rand, length, maxWidth, 8);
-    stripes.push(`<path transform='translate(${tx.toFixed(1)},${ty.toFixed(1)}) rotate(${rot.toFixed(1)})' d='${d}' fill='${color}'/>`);
-  }
-  return (
-    `<svg xmlns='http://www.w3.org/2000/svg' width='${ZEBRA_TILE}' height='${ZEBRA_TILE}' viewBox='0 0 ${ZEBRA_TILE} ${ZEBRA_TILE}'>` +
-    `<rect width='${ZEBRA_TILE}' height='${ZEBRA_TILE}' fill='#0a0612'/>` +
-    stripes.join("") +
-    `</svg>`
-  );
-}
-
-const ZEBRA_BG_URL = `url("data:image/svg+xml,${encodeURIComponent(buildZebraSvg())}")`;
+const ZEBRA_BG_URL = `url("${zebraPrintImg}")`;
 
 export default function Layout({
   products,
@@ -103,27 +36,12 @@ export default function Layout({
   const { addToCart, setViewingProductId } = outletContext;
   const viewingProduct = products.find((p) => p.id === viewingProductId) || null;
 
-  const leopardFrameBg = [
-    "radial-gradient(2px 2px at 10% 20%, #ffffff 65%, transparent 67%)",
-    "radial-gradient(2px 2px at 60% 10%, #ffffff 65%, transparent 67%)",
-    "radial-gradient(2px 2px at 85% 55%, #ffffff 65%, transparent 67%)",
-    "radial-gradient(2px 2px at 30% 65%, #ffffff 65%, transparent 67%)",
-    "radial-gradient(2px 2px at 15% 90%, #ffffff 65%, transparent 67%)",
-    "radial-gradient(2px 2px at 75% 88%, #ffffff 65%, transparent 67%)",
-    "radial-gradient(1.5px 1.5px at 45% 40%, #ffffff 65%, transparent 67%)",
-    "radial-gradient(1.5px 1.5px at 95% 15%, #ffffff 65%, transparent 67%)",
-    ZEBRA_BG_URL,
-  ].join(", ");
-  const leopardFrameSize = new Array(8).fill("380px 380px").concat(`${ZEBRA_TILE}px ${ZEBRA_TILE}px`).join(", ");
-
   return (
     <div
       className="leopard-frame min-h-screen"
       style={{
         fontFamily: "'Rajdhani', sans-serif",
-        backgroundImage: leopardFrameBg,
-        backgroundSize: leopardFrameSize,
-        backgroundColor: "#0a0612",
+        "--zebra-bg": ZEBRA_BG_URL,
       }}
     >
       <style>{`
@@ -132,6 +50,22 @@ export default function Layout({
         .font-mono { font-family: 'Share Tech Mono', monospace; }
         .leopard-frame {
           position: relative;
+          background-color: #0a0612;
+        }
+        .leopard-frame::before {
+          content: "";
+          position: absolute;
+          inset: 0;
+          background-image: var(--zebra-bg);
+          background-size: 260px auto;
+          background-repeat: repeat;
+          z-index: -1;
+          pointer-events: none;
+          animation: hueCycle 22s linear infinite;
+        }
+        @keyframes hueCycle {
+          0% { filter: hue-rotate(0deg); }
+          100% { filter: hue-rotate(360deg); }
         }
         .glitter-word {
           position: absolute;
