@@ -27,13 +27,13 @@ export default function NewInPage() {
       title="NEW IN"
       headerRight={
         editMode && (
-          <button onClick={() => addProduct(NEW_TAG)} className="font-mono text-[10px] flex items-center gap-1 text-[#e8b8ff]">
+          <button onClick={() => addProduct(NEW_TAG)} className="font-mono text-[10px] flex items-center gap-1 text-[#df00ff]">
             <Plus size={12} /> add item
           </button>
         )
       }
     >
-      <p className="font-mono text-[11px] tracking-wide mb-4" style={{ color: "#8b2fc9" }}>
+      <p className="font-mono text-[11px] tracking-wide mb-4" style={{ color: "#df00ff" }}>
         everything currently tagged "{NEW_TAG}"
       </p>
       <div className="flex flex-col gap-4">
@@ -53,7 +53,7 @@ export default function NewInPage() {
           />
         ))}
         {newProducts.length === 0 && (
-          <div className="text-center py-10 font-mono text-xs text-[#8b2fc9]">
+          <div className="text-center py-10 font-mono text-xs text-[#df00ff]">
             nothing tagged "{NEW_TAG}" right now — {editMode ? "click \"add item\" above, or tag an existing item from the Shop page" : "check back soon"}
           </div>
         )}

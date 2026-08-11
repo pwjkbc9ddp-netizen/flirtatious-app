@@ -58,7 +58,7 @@ export default function Layout({
           position: relative;
           z-index: 0;
           isolation: isolate;
-          background-color: #0a0612;
+          background-color: #0a000f;
         }
         .leopard-frame::before {
           content: "";
@@ -89,25 +89,23 @@ export default function Layout({
         .framed-inner {
           position: relative;
           z-index: 2;
-          border: 4px solid transparent;
-          border-image: linear-gradient(135deg, #e8d9ff, #8b2fc9 40%, #c0c0c8) 1;
-          box-shadow: 0 0 10px rgba(139,47,201,0.3), 0 0 0 1px rgba(232,217,255,0.15) inset;
+          border: 4px solid #df00ff;
+          box-shadow: 0 0 10px rgba(223,0,255,0.3), 0 0 0 1px rgba(223,0,255,0.15) inset;
         }
         .sparkle-bg {
           background:
-            radial-gradient(2px 2px at 20px 30px, rgba(232,184,255,0.5), transparent),
+            radial-gradient(2px 2px at 20px 30px, rgba(223,0,255,0.5), transparent),
             radial-gradient(2px 2px at 140px 90px, rgba(192,192,200,0.4), transparent),
-            radial-gradient(1.5px 1.5px at 90px 160px, rgba(77,61,255,0.5), transparent),
-            radial-gradient(2px 2px at 250px 60px, rgba(232,184,255,0.4), transparent),
+            radial-gradient(1.5px 1.5px at 90px 160px, rgba(255,0,102,0.5), transparent),
+            radial-gradient(2px 2px at 250px 60px, rgba(223,0,255,0.4), transparent),
             radial-gradient(1.5px 1.5px at 320px 200px, rgba(192,192,200,0.4), transparent);
           background-size: 380px 380px;
-          background-color: #0a0612;
+          background-color: #0a000f;
           color: #c0c0c8;
         }
         .thumb-fallback {
-          background:
-            linear-gradient(135deg, rgba(139,47,201,0.4), rgba(77,61,255,0.35)),
-            repeating-linear-gradient(45deg, #1a1424 0 9px, #14101e 9px 18px);
+          background-color: rgba(223,0,255,0.35);
+          background-image: repeating-linear-gradient(45deg, #1a1424 0 9px, #14101e 9px 18px);
         }
         @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.25; } }
         .pulse-dot { animation: pulse 1.4s infinite; }
@@ -121,7 +119,7 @@ export default function Layout({
       <div className="sparkle-bg pb-16">
         {/* TOP NAV */}
         <div className="flex justify-between items-center gap-3 px-5 py-2.5 flex-wrap"
-          style={{ background: "linear-gradient(90deg, #5a1a8f, #8b2fc9, #4d3dff)", borderBottom: "2px solid #e8b8ff" }}>
+          style={{ background: "#8000ff", borderBottom: "2px solid #df00ff" }}>
           <NavLink to="/" className="font-display font-black text-white tracking-widest text-sm sm:text-base" style={{ textShadow: "0 0 8px rgba(0,0,0,0.4)" }}>
             ✦ {settings.brandName} ✦
           </NavLink>
@@ -142,9 +140,9 @@ export default function Layout({
               onClick={() => setEditMode((v) => !v)}
               className="font-mono text-[11px] tracking-wide px-3 py-1.5 rounded border transition-colors flex items-center gap-1.5"
               style={{
-                background: editMode ? "#e8b8ff" : "#0a0612",
-                color: editMode ? "#0a0612" : "#e8b8ff",
-                borderColor: "#e8b8ff",
+                background: editMode ? "#df00ff" : "#0a000f",
+                color: editMode ? "#0a000f" : "#df00ff",
+                borderColor: "#df00ff",
               }}
             >
               <Pencil size={12} /> {editMode ? "editing" : "edit mode"}
@@ -152,7 +150,7 @@ export default function Layout({
             <button onClick={() => setCartOpen(true)} className="relative text-white">
               <ShoppingBag size={20} />
               {cartCount > 0 && (
-                <span className="absolute -top-2 -right-2 bg-[#e8b8ff] text-[#0a0612] text-[10px] font-bold rounded-full w-4 h-4 flex items-center justify-center">
+                <span className="absolute -top-2 -right-2 bg-[#df00ff] text-[#0a000f] text-[10px] font-bold rounded-full w-4 h-4 flex items-center justify-center">
                   {cartCount}
                 </span>
               )}
@@ -161,7 +159,7 @@ export default function Layout({
         </div>
 
         {saveStatus && (
-          <div className="font-mono text-[10px] text-center py-1 tracking-wide" style={{ color: saveStatus === "error" ? "#ff6b6b" : "#e8b8ff" }}>
+          <div className="font-mono text-[10px] text-center py-1 tracking-wide" style={{ color: saveStatus === "error" ? "#ff6b6b" : "#df00ff" }}>
             {saveStatus === "saving" ? "saving..." : saveStatus === "saved" ? "✓ saved" : "save failed"}
           </div>
         )}
@@ -171,9 +169,12 @@ export default function Layout({
           <div className="relative overflow-hidden rounded-lg p-6 flex items-center justify-between flex-wrap gap-3 border-2"
             style={{
               borderColor: "#c0c0c8",
-              background: settings.bannerGif
-                ? `url(${settings.bannerGif}) center/cover`
-                : "linear-gradient(160deg, rgba(139,47,201,0.5), rgba(77,61,255,0.4)), repeating-linear-gradient(45deg, #1a1424 0 12px, #14101e 12px 24px)",
+              backgroundColor: settings.bannerGif ? undefined : "rgba(128,0,255,0.45)",
+              backgroundImage: settings.bannerGif
+                ? `url(${settings.bannerGif})`
+                : "repeating-linear-gradient(45deg, #1a1424 0 12px, #14101e 12px 24px)",
+              backgroundSize: settings.bannerGif ? "cover" : undefined,
+              backgroundPosition: settings.bannerGif ? "center" : undefined,
             }}
           >
             {settings.bannerGif && <div className="absolute inset-0 bg-black/40" />}
@@ -183,12 +184,12 @@ export default function Layout({
                   <input
                     value={settings.brandName}
                     onChange={(e) => setSettings((s) => ({ ...s, brandName: e.target.value }))}
-                    className="font-display font-black text-2xl bg-black/60 border border-[#e8b8ff] rounded px-2 py-1 text-white"
+                    className="font-display font-black text-2xl bg-black/60 border border-[#df00ff] rounded px-2 py-1 text-white"
                   />
                   <input
                     value={settings.tagline}
                     onChange={(e) => setSettings((s) => ({ ...s, tagline: e.target.value }))}
-                    className="font-mono text-xs bg-black/60 border border-[#e8b8ff] rounded px-2 py-1 text-[#e8b8ff]"
+                    className="font-mono text-xs bg-black/60 border border-[#df00ff] rounded px-2 py-1 text-[#df00ff]"
                   />
                   <input
                     value={settings.bannerGif}
@@ -201,16 +202,16 @@ export default function Layout({
                 <>
                   <h1 className="font-display font-black tracking-widest text-3xl sm:text-5xl"
                     style={{
-                      background: "linear-gradient(180deg, #ffffff 0%, #c0c0c8 40%, #8b2fc9 75%, #4d3dff 100%)",
+                      background: "linear-gradient(180deg, #ffffff 0%, #c0c0c8 40%, #df00ff 75%, #ff0066 100%)",
                       WebkitBackgroundClip: "text",
                       backgroundClip: "text",
                       color: "transparent",
-                      textShadow: "0 0 30px rgba(139,47,201,0.5)",
+                      textShadow: "0 0 30px rgba(223,0,255,0.5)",
                     }}
                   >
                     {settings.brandName}
                   </h1>
-                  <div className="font-mono text-xs tracking-wide mt-1" style={{ color: "#e8b8ff" }}>{settings.tagline}</div>
+                  <div className="font-mono text-xs tracking-wide mt-1" style={{ color: "#df00ff" }}>{settings.tagline}</div>
                 </>
               )}
             </div>
@@ -218,13 +219,13 @@ export default function Layout({
               {editMode && (
                 <button
                   onClick={() => setEditingSettings((v) => !v)}
-                  className="font-mono text-[10px] px-2 py-1 rounded border border-[#e8b8ff] text-[#e8b8ff] flex items-center gap-1"
+                  className="font-mono text-[10px] px-2 py-1 rounded border border-[#df00ff] text-[#df00ff] flex items-center gap-1"
                 >
                   {editingSettings ? <Check size={11} /> : <Pencil size={11} />} {editingSettings ? "done" : "edit banner"}
                 </button>
               )}
-              <div className="font-mono text-[11px] tracking-wide px-3.5 py-1.5 rounded-full border" style={{ borderColor: "#e8b8ff", color: "#e8b8ff" }}>
-                <span className="inline-block w-1.5 h-1.5 rounded-full bg-[#4dff8f] mr-1.5 pulse-dot" />
+              <div className="font-mono text-[11px] tracking-wide px-3.5 py-1.5 rounded-full border" style={{ borderColor: "#df00ff", color: "#df00ff" }}>
+                <span className="inline-block w-1.5 h-1.5 rounded-full bg-[#00ffcc] mr-1.5 pulse-dot" />
                 SHOP IS OPEN
               </div>
             </div>
@@ -248,7 +249,7 @@ export default function Layout({
               <div
                 className="w-full aspect-square rounded border-2 mb-3 flex items-center justify-center font-display text-[11px] tracking-wide relative overflow-hidden"
                 style={{
-                  borderColor: viewingProduct ? "#e8b8ff" : "#c0c0c8",
+                  borderColor: viewingProduct ? "#df00ff" : "#c0c0c8",
                   opacity: viewingProduct?.img || settings.sidebarGif ? 1 : 0.7,
                 }}
               >
@@ -269,13 +270,13 @@ export default function Layout({
                 <div className="mb-3.5">
                   <div className="flex items-center justify-between gap-2">
                     <h3 className="font-semibold text-white text-sm">{viewingProduct.name}</h3>
-                    <span className="font-display text-sm whitespace-nowrap" style={{ color: "#e8b8ff" }}>${viewingProduct.price.toFixed(2)}</span>
+                    <span className="font-display text-sm whitespace-nowrap" style={{ color: "#df00ff" }}>${viewingProduct.price.toFixed(2)}</span>
                   </div>
                   <p className="text-xs text-[#c0c0c8]/70 mt-1 leading-relaxed">{viewingProduct.desc}</p>
                   <button
                     onClick={() => addToCart(viewingProduct)}
                     className="w-full mt-2.5 py-1.5 rounded font-mono text-[11px] text-white"
-                    style={{ background: "linear-gradient(90deg, #5a1a8f, #8b2fc9)" }}
+                    style={{ background: "#8000ff" }}
                   >
                     ADD +
                   </button>
@@ -286,7 +287,7 @@ export default function Layout({
                     value={settings.sidebarGif}
                     onChange={(e) => setSettings((s) => ({ ...s, sidebarGif: e.target.value }))}
                     placeholder="profile image/GIF URL"
-                    className="w-full font-mono text-[10px] bg-black border border-[#8b2fc9] rounded px-2 py-1.5 mb-3 text-[#c0c0c8]"
+                    className="w-full font-mono text-[10px] bg-black border border-[#df00ff] rounded px-2 py-1.5 mb-3 text-[#c0c0c8]"
                   />
                 )
               )}
@@ -294,7 +295,7 @@ export default function Layout({
               <StatRow label="Est." value="2026" />
               <StatRow label="Vibe:" value="chrome / y2k / after dark" />
               <StatRow label="Ships:" value="discreet, unmarked" />
-              <StatRow label="Status:" value={<span style={{ color: "#4dff8f" }}>● shop open</span>} last />
+              <StatRow label="Status:" value={<span style={{ color: "#00ffcc" }}>● shop open</span>} last />
               <div className="flex flex-col gap-2 mt-3.5">
                 <SidebarLink onClick={() => setCartOpen(true)}>view cart ({cartCount})</SidebarLink>
                 <SidebarLink>view wishlist</SidebarLink>
@@ -303,12 +304,12 @@ export default function Layout({
             </Module>
 
             <Module title={`${settings.brandName}'s BLURB`}>
-              <span className="font-mono text-[11px] tracking-wide block mb-1.5" style={{ color: "#e8b8ff" }}>about us:</span>
+              <span className="font-mono text-[11px] tracking-wide block mb-1.5" style={{ color: "#df00ff" }}>about us:</span>
               {editMode ? (
                 <textarea
                   value={settings.blurb}
                   onChange={(e) => setSettings((s) => ({ ...s, blurb: e.target.value }))}
-                  className="w-full bg-black border border-[#8b2fc9] rounded px-2 py-1.5 text-sm text-[#c0c0c8]"
+                  className="w-full bg-black border border-[#df00ff] rounded px-2 py-1.5 text-sm text-[#c0c0c8]"
                   rows={4}
                 />
               ) : (
@@ -321,7 +322,7 @@ export default function Layout({
                 {["new in", "bestsellers", "sets", "restocked", "limited", "gifts", "sale", "accessories"].map((cat) => (
                   <div key={cat} className="text-center">
                     <div className="thumb-fallback aspect-square rounded border mb-1" style={{ borderColor: "#c0c0c8" }} />
-                    <span className="font-mono text-[10px]" style={{ color: "#e8b8ff" }}>{cat}</span>
+                    <span className="font-mono text-[10px]" style={{ color: "#df00ff" }}>{cat}</span>
                   </div>
                 ))}
               </div>
@@ -329,14 +330,14 @@ export default function Layout({
 
             {editMode && (
               <Module title="BORDER STYLE">
-                <span className="font-mono text-[11px] tracking-wide block mb-1.5" style={{ color: "#e8b8ff" }}>
+                <span className="font-mono text-[11px] tracking-wide block mb-1.5" style={{ color: "#df00ff" }}>
                   default blinkie border (applies to every item unless it has its own):
                 </span>
                 <input
                   value={settings.defaultBorderGif}
                   onChange={(e) => setSettings((s) => ({ ...s, defaultBorderGif: e.target.value }))}
                   placeholder="border GIF URL"
-                  className="w-full font-mono text-[10px] bg-black border border-[#8b2fc9] rounded px-2 py-1.5 text-[#c0c0c8]"
+                  className="w-full font-mono text-[10px] bg-black border border-[#df00ff] rounded px-2 py-1.5 text-[#c0c0c8]"
                 />
                 {settings.defaultBorderGif && (
                   <div

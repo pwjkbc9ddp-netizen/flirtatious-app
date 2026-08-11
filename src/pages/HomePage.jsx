@@ -24,7 +24,7 @@ export default function HomePage() {
       <Module
         title="FEATURED"
         headerRight={
-          <Link to="/shop" className="font-mono text-[10px] text-[#e8b8ff]">
+          <Link to="/shop" className="font-mono text-[10px] text-[#df00ff]">
             view all →
           </Link>
         }
@@ -46,7 +46,7 @@ export default function HomePage() {
             />
           ))}
           {featured.length === 0 && (
-            <div className="text-center py-10 font-mono text-xs text-[#8b2fc9]">
+            <div className="text-center py-10 font-mono text-xs text-[#df00ff]">
               nothing featured yet — tag an item "Bestseller" or "New Arrival" from the Shop page
             </div>
           )}

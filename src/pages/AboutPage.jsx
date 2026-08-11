@@ -13,13 +13,13 @@ export default function AboutPage() {
             value={settings.aboutHeading}
             onChange={(e) => setSettings((s) => ({ ...s, aboutHeading: e.target.value }))}
             placeholder="heading"
-            className="font-display font-black text-xl bg-black border border-[#8b2fc9] rounded px-2 py-1.5 text-white"
+            className="font-display font-black text-xl bg-black border border-[#df00ff] rounded px-2 py-1.5 text-white"
           />
           <textarea
             value={settings.aboutBody}
             onChange={(e) => setSettings((s) => ({ ...s, aboutBody: e.target.value }))}
             placeholder="about text"
-            className="w-full bg-black border border-[#8b2fc9] rounded px-2 py-1.5 text-sm text-[#c0c0c8]"
+            className="w-full bg-black border border-[#df00ff] rounded px-2 py-1.5 text-sm text-[#c0c0c8]"
             rows={8}
           />
         </div>
