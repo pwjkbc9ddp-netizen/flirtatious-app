@@ -8,12 +8,14 @@ import zebraPrintImg from "../assets/zebra-print-neon.jpg";
 const ZEBRA_BG_URL = `url("${zebraPrintImg}")`;
 
 const NAV_ITEMS = [
-  { to: "/", label: "home", end: true },
+  { to: "/", label: "welcome", end: true },
   { to: "/shop", label: "shop" },
   { to: "/new-in", label: "new in" },
   { to: "/blog", label: "blog" },
   { to: "/about", label: "about" },
 ];
+
+const WELCOME_NAV_ITEMS = NAV_ITEMS.filter((item) => item.to !== "/");
 
 // Blocky pixel-art heart, tiled as a repeating pattern for the border.
 const HEART_PIXELS = [
@@ -110,14 +112,7 @@ export default function Layout({
         }
         .home-frame::before {
           background-image: var(--heart-bg);
-          animation: heartBeat 1.4s ease-in-out infinite;
-        }
-        @keyframes heartBeat {
-          0%, 100% { background-size: 50px 50px; }
-          14% { background-size: 58px 58px; }
-          28% { background-size: 50px 50px; }
-          42% { background-size: 62px 62px; }
-          70% { background-size: 50px 50px; }
+          background-size: 50px 50px;
         }
         .zebra-frame::before {
           background-image: var(--zebra-bg);
@@ -154,6 +149,17 @@ export default function Layout({
             radial-gradient(1.5px 1.5px at 320px 200px, rgba(192,192,200,0.4), transparent);
           background-size: 380px 380px;
           background-color: transparent;
+          color: #c0c0c8;
+        }
+        .welcome-scanlines {
+          background-color: #120a17;
+          background-image: repeating-linear-gradient(
+            to bottom,
+            rgba(255,255,255,0.035) 0px,
+            rgba(255,255,255,0.035) 1px,
+            transparent 1px,
+            transparent 3px
+          );
           color: #c0c0c8;
         }
         .thumb-fallback {
@@ -217,6 +223,20 @@ export default function Layout({
 
       <div className="p-8 sm:p-14 md:p-20">
       <div className="framed-inner rounded-xl overflow-hidden">
+      {isHome ? (
+      <div className="welcome-scanlines" style={{ minHeight: "80vh" }}>
+        <div className="flex justify-end items-center gap-5 px-6 py-5 flex-wrap font-mono text-[11px] tracking-wide">
+          {WELCOME_NAV_ITEMS.map((item) => (
+            <NavLink key={item.to} to={item.to} className="nav-link" style={{ color: "#ff2fb3" }}>
+              {item.label}
+            </NavLink>
+          ))}
+        </div>
+        <div className="flex items-center justify-center px-4 pb-16" style={{ minHeight: "65vh" }}>
+          <Outlet context={outletContext} />
+        </div>
+      </div>
+      ) : (
       <div className="sparkle-bg pb-16">
         {/* TOP NAV */}
         <div className="chrome-silver flex justify-between items-center gap-3 px-5 py-2.5 flex-wrap"
@@ -466,6 +486,7 @@ export default function Layout({
           18+ ONLY · AGE VERIFICATION REQUIRED AT CHECKOUT
         </div>
       </div>
+      )}
       </div>
       </div>
 
