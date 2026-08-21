@@ -3,9 +3,6 @@ import { Pencil, ShoppingBag, Check, X } from "lucide-react";
 import Module from "./Module.jsx";
 import { StatRow, SidebarLink } from "./Misc.jsx";
 import CartDrawer from "./CartDrawer.jsx";
-import zebraPrintImg from "../assets/zebra-print-neon.jpg";
-
-const ZEBRA_BG_URL = `url("${zebraPrintImg}")`;
 
 const NAV_ITEMS = [
   { to: "/", label: "welcome", end: true },
@@ -79,11 +76,10 @@ export default function Layout({
 
   return (
     <div
-      className={`leopard-frame min-h-screen ${isHome ? "home-frame" : "zebra-frame"}`}
+      className={`leopard-frame min-h-screen ${isHome ? "home-frame" : "pages-frame"}`}
       style={{
         fontFamily: "'Rajdhani', sans-serif",
         "--heart-bg": HEART_BG_URL,
-        "--zebra-bg": ZEBRA_BG_URL,
       }}
     >
       <style>{`
@@ -113,12 +109,17 @@ export default function Layout({
         .home-frame::before {
           background-image: var(--heart-bg);
           background-size: 50px 50px;
+          animation: heartBounce 3.2s ease-in-out infinite;
         }
-        .zebra-frame::before {
-          background-image: var(--zebra-bg);
-          background-size: 150px auto;
+        @keyframes heartBounce {
+          0%, 100% { background-position-y: 0px; }
+          50% { background-position-y: 10px; }
         }
-        .zebra-frame::after {
+        .pages-frame::before {
+          background-image: var(--heart-bg);
+          background-size: 50px 50px;
+        }
+        .pages-frame::after {
           content: "";
           position: absolute;
           inset: 0;
