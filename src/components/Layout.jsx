@@ -72,7 +72,9 @@ export default function Layout({
 }) {
   const { addToCart, setViewingProductId } = outletContext;
   const viewingProduct = products.find((p) => p.id === viewingProductId) || null;
-  const isHome = useLocation().pathname === "/";
+  const location = useLocation();
+  const isHome = location.pathname === "/";
+  const isShop = location.pathname === "/shop";
 
   return (
     <div
@@ -358,6 +360,8 @@ export default function Layout({
         <div className="max-w-[1180px] mx-auto px-4 grid grid-cols-1 md:grid-cols-[320px_1fr] gap-5 mt-5">
           {/* SIDEBAR */}
           <div>
+            {!isShop && (
+            <>
             <Module
               title={viewingProduct ? "NOW VIEWING" : settings.brandName}
               headerRight={
@@ -437,6 +441,8 @@ export default function Layout({
                 <p className="text-sm leading-relaxed">{settings.blurb}</p>
               )}
             </Module>
+            </>
+            )}
 
             <Module title="SHOP">
               <div className="grid grid-cols-4 gap-2">
