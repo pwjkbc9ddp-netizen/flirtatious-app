@@ -7,8 +7,6 @@ import CartDrawer from "./CartDrawer.jsx";
 const NAV_ITEMS = [
   { to: "/", label: "welcome", end: true },
   { to: "/shop", label: "shop" },
-  { to: "/new-in", label: "new in" },
-  { to: "/blog", label: "blog" },
   { to: "/about", label: "about" },
 ];
 

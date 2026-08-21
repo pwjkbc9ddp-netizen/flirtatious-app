@@ -4,8 +4,6 @@ import { STORAGE_KEY, storage, uid, DEFAULT_PRODUCTS, DEFAULT_SETTINGS, DEFAULT_
 import Layout from "./components/Layout.jsx";
 import HomePage from "./pages/HomePage.jsx";
 import ShopPage from "./pages/ShopPage.jsx";
-import NewInPage from "./pages/NewInPage.jsx";
-import BlogPage from "./pages/BlogPage.jsx";
 import AboutPage from "./pages/AboutPage.jsx";
 
 export default function App() {
@@ -170,8 +168,6 @@ export default function App() {
       >
         <Route index element={<HomePage />} />
         <Route path="shop" element={<ShopPage />} />
-        <Route path="new-in" element={<NewInPage />} />
-        <Route path="blog" element={<BlogPage />} />
         <Route path="about" element={<AboutPage />} />
       </Route>
     </Routes>
