@@ -355,11 +355,10 @@ export default function Layout({
         </div>
 
         {/* LAYOUT */}
-        <div className="max-w-[1180px] mx-auto px-4 grid grid-cols-1 md:grid-cols-[320px_1fr] gap-5 mt-5">
+        <div className={`max-w-[1180px] mx-auto px-4 grid gap-5 mt-5 ${isShop ? "grid-cols-1" : "grid-cols-1 md:grid-cols-[320px_1fr]"}`}>
           {/* SIDEBAR */}
+          {!isShop && (
           <div>
-            {!isShop && (
-            <>
             <Module
               title={viewingProduct ? "NOW VIEWING" : settings.brandName}
               headerRight={
@@ -439,10 +438,7 @@ export default function Layout({
                 <p className="text-sm leading-relaxed">{settings.blurb}</p>
               )}
             </Module>
-            </>
-            )}
 
-            {!isShop && (
             <Module title="SHOP">
               <div className="grid grid-cols-4 gap-2">
                 {["new in", "bestsellers", "sets", "restocked", "limited", "gifts", "sale", "accessories"].map((cat) => (
@@ -453,7 +449,6 @@ export default function Layout({
                 ))}
               </div>
             </Module>
-            )}
 
             {editMode && (
               <Module title="BORDER STYLE">
@@ -481,6 +476,7 @@ export default function Layout({
               </Module>
             )}
           </div>
+          )}
 
           {/* MAIN COLUMN (route content) */}
           <div>
