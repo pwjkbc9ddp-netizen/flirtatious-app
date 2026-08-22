@@ -72,7 +72,7 @@ export default function Layout({
   const viewingProduct = products.find((p) => p.id === viewingProductId) || null;
   const location = useLocation();
   const isHome = location.pathname === "/";
-  const isShop = location.pathname === "/shop";
+  const isShop = location.pathname === "/shop" || location.pathname.startsWith("/shop/");
 
   return (
     <div
