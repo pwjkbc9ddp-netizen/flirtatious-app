@@ -39,6 +39,21 @@ export const DEFAULT_POSTS = [
   },
 ];
 
+export const DEFAULT_WALL_POSTS = [
+  {
+    id: "w1",
+    name: "cyberangel",
+    message: "obsessed with this shop, the chrome finishes are unreal in person",
+    date: "2026-01-14T18:20:00",
+  },
+  {
+    id: "w2",
+    name: "midnightvix",
+    message: "shipping was fast and so discreet, will def be back for the holo kit",
+    date: "2026-01-11T21:05:00",
+  },
+];
+
 export const DEFAULT_SETTINGS = {
   brandName: "FLIRTATIOUS",
   tagline: "chrome. gloss. after dark. ✦ est. 2026",

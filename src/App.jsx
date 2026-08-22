@@ -1,6 +1,6 @@
 import { useState, useEffect, useRef } from "react";
 import { Routes, Route } from "react-router-dom";
-import { STORAGE_KEY, storage, uid, DEFAULT_PRODUCTS, DEFAULT_SETTINGS, DEFAULT_POSTS } from "./lib/data.js";
+import { STORAGE_KEY, storage, uid, DEFAULT_PRODUCTS, DEFAULT_SETTINGS, DEFAULT_POSTS, DEFAULT_WALL_POSTS } from "./lib/data.js";
 import Layout from "./components/Layout.jsx";
 import HomePage from "./pages/HomePage.jsx";
 import ShopPage from "./pages/ShopPage.jsx";
@@ -11,6 +11,7 @@ export default function App() {
   const [products, setProducts] = useState(DEFAULT_PRODUCTS);
   const [settings, setSettings] = useState(DEFAULT_SETTINGS);
   const [posts, setPosts] = useState(DEFAULT_POSTS);
+  const [wallPosts, setWallPosts] = useState(DEFAULT_WALL_POSTS);
   const [loaded, setLoaded] = useState(false);
   const [editMode, setEditMode] = useState(false);
   const [cart, setCart] = useState([]);
@@ -32,6 +33,7 @@ export default function App() {
           if (data.products) setProducts(data.products);
           if (data.settings) setSettings({ ...DEFAULT_SETTINGS, ...data.settings });
           if (data.posts) setPosts(data.posts);
+          if (data.wallPosts) setWallPosts(data.wallPosts);
         }
       } catch (e) {
         // no saved data yet, use defaults
@@ -40,14 +42,14 @@ export default function App() {
     })();
   }, []);
 
-  // Debounced save whenever products/settings/posts change (after initial load)
+  // Debounced save whenever products/settings/posts/wallPosts change (after initial load)
   useEffect(() => {
     if (!loaded) return;
     setSaveStatus("saving");
     if (saveTimer.current) clearTimeout(saveTimer.current);
     saveTimer.current = setTimeout(async () => {
       try {
-        await storage.set(STORAGE_KEY, JSON.stringify({ products, settings, posts }));
+        await storage.set(STORAGE_KEY, JSON.stringify({ products, settings, posts, wallPosts }));
         setSaveStatus("saved");
         setTimeout(() => setSaveStatus(""), 1500);
       } catch (e) {
@@ -55,7 +57,7 @@ export default function App() {
       }
     }, 500);
     return () => clearTimeout(saveTimer.current);
-  }, [products, settings, posts, loaded]);
+  }, [products, settings, posts, wallPosts, loaded]);
 
   function addToCart(product) {
     setCart((prev) => {
@@ -118,6 +120,20 @@ export default function App() {
     setPosts((prev) => prev.filter((p) => p.id !== id));
   }
 
+  function addWallPost(name, message) {
+    const newWallPost = {
+      id: uid(),
+      name: name.trim() || "anonymous",
+      message: message.trim(),
+      date: new Date().toISOString(),
+    };
+    setWallPosts((prev) => [newWallPost, ...prev]);
+  }
+
+  function deleteWallPost(id) {
+    setWallPosts((prev) => prev.filter((w) => w.id !== id));
+  }
+
   const cartTotal = cart.reduce((sum, i) => sum + i.price * i.qty, 0);
   const cartCount = cart.reduce((sum, i) => sum + i.qty, 0);
 
@@ -140,6 +156,9 @@ export default function App() {
     updatePost,
     deletePost,
     addPost,
+    wallPosts,
+    addWallPost,
+    deleteWallPost,
   };
 
   return (

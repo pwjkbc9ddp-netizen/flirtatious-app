@@ -1,7 +1,6 @@
 import { Outlet, NavLink, useLocation } from "react-router-dom";
-import { Pencil, ShoppingBag, Check, X } from "lucide-react";
+import { Pencil, ShoppingBag, Check } from "lucide-react";
 import Module from "./Module.jsx";
-import { StatRow, SidebarLink } from "./Misc.jsx";
 import CartDrawer from "./CartDrawer.jsx";
 
 const NAV_ITEMS = [
@@ -51,7 +50,6 @@ function buildHeartSvg() {
 const HEART_BG_URL = `url("data:image/svg+xml,${encodeURIComponent(buildHeartSvg())}")`;
 
 export default function Layout({
-  products,
   settings,
   setSettings,
   editMode,
@@ -65,11 +63,8 @@ export default function Layout({
   cartOpen,
   setCartOpen,
   updateQty,
-  viewingProductId,
   outletContext,
 }) {
-  const { addToCart, setViewingProductId } = outletContext;
-  const viewingProduct = products.find((p) => p.id === viewingProductId) || null;
   const location = useLocation();
   const isHome = location.pathname === "/";
   const isShop = location.pathname === "/shop" || location.pathname.startsWith("/shop/");
@@ -175,7 +170,7 @@ export default function Layout({
         .chrome-silver {
           position: relative;
           overflow: hidden;
-          background: linear-gradient(120deg, #3a3a40 0%, #6e6e78 18%, #9a9aa4 28%, #55555c 42%, #232326 58%, #63636c 72%, #86868f 85%, #45454c 100%);
+          background: linear-gradient(120deg, #4d2200 0%, #b35900 18%, #ff9933 28%, #8c4400 42%, #2b1400 58%, #a35200 72%, #ffb366 85%, #663300 100%);
           background-size: 220% 220%;
           animation: chromeShift 9s ease-in-out infinite;
         }
@@ -359,71 +354,14 @@ export default function Layout({
           {/* SIDEBAR */}
           {!isShop && (
           <div>
-            <Module
-              title={viewingProduct ? "NOW VIEWING" : settings.brandName}
-              headerRight={
-                viewingProduct && (
-                  <button onClick={() => setViewingProductId(null)} className="text-white/80 hover:text-white" title="Back to profile photo">
-                    <X size={13} />
-                  </button>
-                )
-              }
+            <div
+              className="chrome-silver rounded-md mb-5 px-3.5 py-2"
+              style={{ border: "1px solid rgba(192,192,200,0.35)", boxShadow: "0 4px 18px rgba(0,0,0,0.4)" }}
             >
-              <div
-                className="w-full aspect-square rounded border-2 mb-3 flex items-center justify-center font-display text-[11px] tracking-wide relative overflow-hidden"
-                style={{
-                  borderColor: viewingProduct ? "#df00ff" : "#c0c0c8",
-                  opacity: viewingProduct?.img || settings.sidebarGif ? 1 : 0.7,
-                }}
-              >
-                {viewingProduct ? (
-                  viewingProduct.img ? (
-                    <img src={viewingProduct.img} alt={viewingProduct.name} className="w-full h-full object-cover" />
-                  ) : (
-                    <div className="thumb-fallback w-full h-full flex items-center justify-center text-center px-3">{viewingProduct.name}</div>
-                  )
-                ) : settings.sidebarGif ? (
-                  <img src={settings.sidebarGif} alt="profile" className="w-full h-full object-cover" />
-                ) : (
-                  <div className="thumb-fallback w-full h-full flex items-center justify-center">✦ MAIN PHOTO ✦</div>
-                )}
-              </div>
-
-              {viewingProduct ? (
-                <div className="mb-3.5">
-                  <div className="flex items-center justify-between gap-2">
-                    <h3 className="font-semibold text-white text-sm">{viewingProduct.name}</h3>
-                    <span className="font-display text-sm whitespace-nowrap" style={{ color: "#df00ff" }}>${viewingProduct.price.toFixed(2)}</span>
-                  </div>
-                  <p className="text-xs text-[#c0c0c8]/70 mt-1 leading-relaxed">{viewingProduct.desc}</p>
-                  <button
-                    onClick={() => addToCart(viewingProduct)}
-                    className="chrome-silver w-full mt-2.5 py-1.5 rounded font-mono text-[11px]"
-                  >
-                    <span className="chrome-silver-content" style={{ color: "#f4f4f6" }}>ADD +</span>
-                  </button>
-                </div>
-              ) : (
-                editMode && (
-                  <input
-                    value={settings.sidebarGif}
-                    onChange={(e) => setSettings((s) => ({ ...s, sidebarGif: e.target.value }))}
-                    placeholder="profile image/GIF URL"
-                    className="w-full font-mono text-[10px] bg-black border border-[#df00ff] rounded px-2 py-1.5 mb-3 text-[#c0c0c8]"
-                  />
-                )
-              )}
-
-              <StatRow label="Est." value="2026" />
-              <StatRow label="Vibe:" value="chrome / y2k / after dark" />
-              <StatRow label="Ships:" value="discreet, unmarked" />
-              <StatRow label="Status:" value={<span style={{ color: "#00ffcc" }}>● shop open</span>} last />
-              <div className="flex flex-col gap-2 mt-3.5">
-                <SidebarLink onClick={() => setCartOpen(true)}>view cart ({cartCount})</SidebarLink>
-                <SidebarLink>view wishlist</SidebarLink>
-                <SidebarLink>contact us</SidebarLink>
-              </div>
-            </Module>
+              <span className="chrome-silver-content font-display text-[0.7rem] tracking-widest" style={{ color: "#f4f4f6" }}>
+                {settings.brandName}
+              </span>
+            </div>
 
             <Module title={`${settings.brandName}'s BLURB`}>
               <span className="font-mono text-[11px] tracking-wide block mb-1.5" style={{ color: "#df00ff" }}>about us:</span>
@@ -437,17 +375,6 @@ export default function Layout({
               ) : (
                 <p className="text-sm leading-relaxed">{settings.blurb}</p>
               )}
-            </Module>
-
-            <Module title="SHOP">
-              <div className="grid grid-cols-4 gap-2">
-                {["new in", "bestsellers", "sets", "restocked", "limited", "gifts", "sale", "accessories"].map((cat) => (
-                  <div key={cat} className="text-center">
-                    <div className="thumb-fallback aspect-square rounded border mb-1" style={{ borderColor: "#c0c0c8" }} />
-                    <span className="font-mono text-[10px]" style={{ color: "#df00ff" }}>{cat}</span>
-                  </div>
-                ))}
-              </div>
             </Module>
 
             {editMode && (
