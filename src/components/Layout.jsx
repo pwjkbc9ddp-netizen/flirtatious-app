@@ -442,6 +442,7 @@ export default function Layout({
             </>
             )}
 
+            {!isShop && (
             <Module title="SHOP">
               <div className="grid grid-cols-4 gap-2">
                 {["new in", "bestsellers", "sets", "restocked", "limited", "gifts", "sale", "accessories"].map((cat) => (
@@ -452,6 +453,7 @@ export default function Layout({
                 ))}
               </div>
             </Module>
+            )}
 
             {editMode && (
               <Module title="BORDER STYLE">
