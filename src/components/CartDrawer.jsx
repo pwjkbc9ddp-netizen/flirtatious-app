@@ -29,7 +29,7 @@ export default function CartDrawer({ open, onClose, cart, cartCount, cartTotal, 
                 <div className="font-mono text-xs" style={{ color: "#ff2fb3" }}>${item.price.toFixed(2)}</div>
                 <div className="flex items-center gap-2 mt-1">
                   <button onClick={() => onUpdateQty(item.id, item.qty - 1)} className="w-5 h-5 border rounded text-xs bg-transparent" style={{ borderColor: "#ff2fb3", color: "#ff2fb3" }}>-</button>
-                  <span className="font-mono text-xs w-4 text-center">{item.qty}</span>
+                  <span className="font-mono text-xs w-4 text-center" style={{ color: "#ff2fb3" }}>{item.qty}</span>
                   <button onClick={() => onUpdateQty(item.id, item.qty + 1)} className="w-5 h-5 border rounded text-xs bg-transparent" style={{ borderColor: "#ff2fb3", color: "#ff2fb3" }}>+</button>
                 </div>
               </div>
