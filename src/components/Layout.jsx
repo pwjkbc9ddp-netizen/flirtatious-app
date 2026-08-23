@@ -354,15 +354,6 @@ export default function Layout({
           {/* SIDEBAR */}
           {!isShop && (
           <div>
-            <div
-              className="chrome-silver rounded-md mb-5 px-3.5 py-2"
-              style={{ border: "1px solid rgba(192,192,200,0.35)", boxShadow: "0 4px 18px rgba(0,0,0,0.4)" }}
-            >
-              <span className="chrome-silver-content font-display text-[0.7rem] tracking-widest" style={{ color: "#f4f4f6" }}>
-                {settings.brandName}
-              </span>
-            </div>
-
             <Module title={`${settings.brandName}'s BLURB`}>
               <span className="font-mono text-[11px] tracking-wide block mb-1.5" style={{ color: "#ff2fb3" }}>about us:</span>
               {editMode ? (
