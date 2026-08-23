@@ -50,7 +50,7 @@ export default function AboutPage() {
         title="BLOG"
         headerRight={
           editMode && (
-            <button onClick={addPost} className="font-mono text-[10px] flex items-center gap-1 text-[#df00ff]">
+            <button onClick={addPost} className="font-mono text-[10px] flex items-center gap-1 text-[#ff2fb3]">
               <Plus size={12} /> add post
             </button>
           )
@@ -69,7 +69,7 @@ export default function AboutPage() {
             />
           ))}
           {posts.length === 0 && (
-            <div className="text-center py-10 font-mono text-xs text-[#df00ff]">
+            <div className="text-center py-10 font-mono text-xs text-[#ff2fb3]">
               no posts yet — {editMode ? "click \"add post\" above" : "toggle edit mode to add some"}
             </div>
           )}
@@ -77,7 +77,7 @@ export default function AboutPage() {
       </Module>
 
       <Module title="GUESTBOOK">
-        <p className="font-mono text-[11px] tracking-wide mb-3" style={{ color: "#df00ff" }}>
+        <p className="font-mono text-[11px] tracking-wide mb-3" style={{ color: "#ff2fb3" }}>
           leave a message for the shop — visible on this device
         </p>
 
@@ -87,7 +87,7 @@ export default function AboutPage() {
             onChange={(e) => setWallName(e.target.value)}
             placeholder="your name"
             className="bg-black border rounded px-2.5 py-1.5 text-sm text-white"
-            style={{ borderColor: "#df00ff" }}
+            style={{ borderColor: "#ff2fb3" }}
           />
           <textarea
             value={wallMessage}
@@ -95,7 +95,7 @@ export default function AboutPage() {
             placeholder="say something..."
             rows={3}
             className="w-full bg-black border rounded px-2.5 py-1.5 text-sm text-[#c0c0c8]"
-            style={{ borderColor: "#df00ff" }}
+            style={{ borderColor: "#ff2fb3" }}
           />
           <button
             onClick={handlePost}
@@ -112,7 +112,7 @@ export default function AboutPage() {
               <div className="w-11 h-11 rounded border flex-shrink-0 thumb-fallback" style={{ borderColor: "#c0c0c8" }} />
               <div className="flex-1">
                 <div className="flex items-center justify-between gap-2">
-                  <span className="font-mono text-[11px]" style={{ color: "#df00ff" }}>✦ {w.name}</span>
+                  <span className="font-mono text-[11px]" style={{ color: "#ff2fb3" }}>✦ {w.name}</span>
                   <div className="flex items-center gap-2">
                     <span className="font-mono text-[10px]" style={{ color: "#c0c0c8" }}>{formatWallDate(w.date)}</span>
                     {editMode && (
@@ -127,7 +127,7 @@ export default function AboutPage() {
             </div>
           ))}
           {wallPosts.length === 0 && (
-            <div className="text-center py-10 font-mono text-xs" style={{ color: "#df00ff" }}>
+            <div className="text-center py-10 font-mono text-xs" style={{ color: "#ff2fb3" }}>
               no messages yet — be the first to post
             </div>
           )}
@@ -141,13 +141,13 @@ export default function AboutPage() {
               value={settings.aboutHeading}
               onChange={(e) => setSettings((s) => ({ ...s, aboutHeading: e.target.value }))}
               placeholder="heading"
-              className="font-display font-black text-xl bg-black border border-[#df00ff] rounded px-2 py-1.5 text-white"
+              className="font-display font-black text-xl bg-black border border-[#ff2fb3] rounded px-2 py-1.5 text-white"
             />
             <textarea
               value={settings.aboutBody}
               onChange={(e) => setSettings((s) => ({ ...s, aboutBody: e.target.value }))}
               placeholder="about text"
-              className="w-full bg-black border border-[#df00ff] rounded px-2 py-1.5 text-sm text-[#c0c0c8]"
+              className="w-full bg-black border border-[#ff2fb3] rounded px-2 py-1.5 text-sm text-[#c0c0c8]"
               rows={8}
             />
           </div>

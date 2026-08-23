@@ -5,7 +5,7 @@ export default function ProductRow({ product, defaultBorderGif, editMode, isEdit
 
   if (isEditing) {
     return (
-      <div className="rounded-md p-3 border" style={{ background: "#0a000f", borderColor: "#df00ff" }}>
+      <div className="rounded-md p-3 border" style={{ background: "#0a000f", borderColor: "#ff2fb3" }}>
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 mb-2">
           <input value={product.name} onChange={(e) => onUpdate({ name: e.target.value })} placeholder="name"
             className="bg-black border rounded px-2 py-1.5 text-sm text-white" style={{ borderColor: "#c0c0c8" }} />
@@ -22,7 +22,7 @@ export default function ProductRow({ product, defaultBorderGif, editMode, isEdit
           className="w-full bg-black border rounded px-2 py-1.5 text-sm text-white mb-2" style={{ borderColor: "#c0c0c8" }} rows={2} />
         <div className="flex justify-end gap-2">
           <button onClick={onDelete} className="font-mono text-[11px] flex items-center gap-1 text-red-400 px-2 py-1"><Trash2 size={12} /> delete</button>
-          <button onClick={onEditToggle} className="font-mono text-[11px] flex items-center gap-1 text-[#00ffcc] px-2 py-1"><Check size={12} /> done</button>
+          <button onClick={onEditToggle} className="font-mono text-[11px] flex items-center gap-1 text-[#00e5ff] px-2 py-1"><Check size={12} /> done</button>
         </div>
       </div>
     );
@@ -30,7 +30,7 @@ export default function ProductRow({ product, defaultBorderGif, editMode, isEdit
 
   return (
     <div className="grid grid-cols-[110px_1fr_auto] sm:grid-cols-[130px_1fr_auto] gap-4 items-center rounded-md p-3 border transition-colors"
-      style={{ background: "#0a000f", borderColor: isViewing ? "#df00ff" : "rgba(192,192,200,0.25)" }}>
+      style={{ background: "#0a000f", borderColor: isViewing ? "#ff2fb3" : "rgba(192,192,200,0.25)" }}>
       <button
         type="button"
         onClick={onView}
@@ -55,19 +55,19 @@ export default function ProductRow({ product, defaultBorderGif, editMode, isEdit
             PRODUCT PHOTO
           </div>
         )}
-        <span className="absolute top-1.5 left-2 font-mono text-[9px]" style={{ color: "#df00ff" }}>{product.num}</span>
+        <span className="absolute top-1.5 left-2 font-mono text-[9px]" style={{ color: "#ff2fb3" }}>{product.num}</span>
       </button>
       <div>
         <h3 className="font-semibold text-white text-base sm:text-lg">{product.name}</h3>
-        <span className="inline-block text-[0.7rem] tracking-wide uppercase my-1 px-2 py-0.5 rounded-full border" style={{ color: "#df00ff", background: "rgba(223,0,255,0.15)", borderColor: "rgba(223,0,255,0.5)" }}>
+        <span className="inline-block text-[0.7rem] tracking-wide uppercase my-1 px-2 py-0.5 rounded-full border" style={{ color: "#ff2fb3", background: "rgba(255,47,179,0.15)", borderColor: "rgba(255,47,179,0.5)" }}>
           {product.tag}
         </span>
         <p className="text-sm text-[#c0c0c8]/75 hidden sm:block">{product.desc}</p>
       </div>
       <div className="text-right flex flex-col items-end gap-2">
-        <span className="font-display text-base sm:text-lg" style={{ color: "#df00ff" }}>${product.price.toFixed(2)}</span>
+        <span className="font-display text-base sm:text-lg" style={{ color: "#ff2fb3" }}>${product.price.toFixed(2)}</span>
         {editMode ? (
-          <button onClick={onEditToggle} className="font-mono text-[10px] flex items-center gap-1 px-2.5 py-1.5 rounded border" style={{ borderColor: "#df00ff", color: "#df00ff" }}>
+          <button onClick={onEditToggle} className="font-mono text-[10px] flex items-center gap-1 px-2.5 py-1.5 rounded border" style={{ borderColor: "#ff2fb3", color: "#ff2fb3" }}>
             <Pencil size={11} /> edit
           </button>
         ) : (

@@ -133,15 +133,15 @@ export default function Layout({
         .framed-inner {
           position: relative;
           z-index: 2;
-          border: 4px solid #df00ff;
-          box-shadow: 0 0 10px rgba(223,0,255,0.3), 0 0 0 1px rgba(223,0,255,0.15) inset;
+          border: 4px solid #ff2fb3;
+          box-shadow: 0 0 10px rgba(255,47,179,0.3), 0 0 0 1px rgba(255,47,179,0.15) inset;
         }
         .sparkle-bg {
           background:
-            radial-gradient(2px 2px at 20px 30px, rgba(223,0,255,0.5), transparent),
+            radial-gradient(2px 2px at 20px 30px, rgba(255,47,179,0.5), transparent),
             radial-gradient(2px 2px at 140px 90px, rgba(192,192,200,0.4), transparent),
-            radial-gradient(1.5px 1.5px at 90px 160px, rgba(255,0,102,0.5), transparent),
-            radial-gradient(2px 2px at 250px 60px, rgba(223,0,255,0.4), transparent),
+            radial-gradient(1.5px 1.5px at 90px 160px, rgba(174,246,44,0.5), transparent),
+            radial-gradient(2px 2px at 250px 60px, rgba(255,47,179,0.4), transparent),
             radial-gradient(1.5px 1.5px at 320px 200px, rgba(192,192,200,0.4), transparent);
           background-size: 380px 380px;
           background-color: transparent;
@@ -159,7 +159,7 @@ export default function Layout({
           color: #c0c0c8;
         }
         .thumb-fallback {
-          background-color: rgba(223,0,255,0.35);
+          background-color: rgba(255,47,179,0.35);
           background-image: repeating-linear-gradient(45deg, #1a1424 0 9px, #14101e 9px 18px);
         }
         @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.25; } }
@@ -170,7 +170,7 @@ export default function Layout({
         .chrome-silver {
           position: relative;
           overflow: hidden;
-          background: linear-gradient(120deg, #4d2200 0%, #b35900 18%, #ff9933 28%, #8c4400 42%, #2b1400 58%, #a35200 72%, #ffb366 85%, #663300 100%);
+          background: linear-gradient(120deg, #2e0f4d 0%, #6a1fb3 18%, #b366ff 28%, #4d1a8c 42%, #190a2b 58%, #6019a3 72%, #cc99ff 85%, #3d1966 100%);
           background-size: 220% 220%;
           animation: chromeShift 9s ease-in-out infinite;
         }
@@ -236,7 +236,7 @@ export default function Layout({
       <div className="sparkle-bg pb-16">
         {/* TOP NAV */}
         <div className="chrome-silver flex justify-between items-center gap-3 px-5 py-2.5 flex-wrap"
-          style={{ borderBottom: "2px solid #df00ff" }}>
+          style={{ borderBottom: "2px solid #ff2fb3" }}>
           <NavLink to="/" className="chrome-silver-content font-display font-black tracking-widest text-sm sm:text-base" style={{ color: "#f4f4f6", textShadow: "0 0 8px rgba(0,0,0,0.6)" }}>
             ✦ {settings.brandName} ✦
           </NavLink>
@@ -257,9 +257,9 @@ export default function Layout({
               onClick={() => setEditMode((v) => !v)}
               className="font-mono text-[11px] tracking-wide px-3 py-1.5 rounded border transition-colors flex items-center gap-1.5"
               style={{
-                background: editMode ? "#df00ff" : "#0a000f",
-                color: editMode ? "#0a000f" : "#df00ff",
-                borderColor: "#df00ff",
+                background: editMode ? "#ff2fb3" : "#0a000f",
+                color: editMode ? "#0a000f" : "#ff2fb3",
+                borderColor: "#ff2fb3",
               }}
             >
               <Pencil size={12} /> {editMode ? "editing" : "edit mode"}
@@ -267,7 +267,7 @@ export default function Layout({
             <button onClick={() => setCartOpen(true)} className="relative" style={{ color: "#f4f4f6" }}>
               <ShoppingBag size={20} />
               {cartCount > 0 && (
-                <span className="absolute -top-2 -right-2 bg-[#df00ff] text-[#0a000f] text-[10px] font-bold rounded-full w-4 h-4 flex items-center justify-center">
+                <span className="absolute -top-2 -right-2 bg-[#ff2fb3] text-[#0a000f] text-[10px] font-bold rounded-full w-4 h-4 flex items-center justify-center">
                   {cartCount}
                 </span>
               )}
@@ -276,7 +276,7 @@ export default function Layout({
         </div>
 
         {saveStatus && (
-          <div className="font-mono text-[10px] text-center py-1 tracking-wide" style={{ color: saveStatus === "error" ? "#ff6b6b" : "#df00ff" }}>
+          <div className="font-mono text-[10px] text-center py-1 tracking-wide" style={{ color: saveStatus === "error" ? "#ff6b6b" : "#ff2fb3" }}>
             {saveStatus === "saving" ? "saving..." : saveStatus === "saved" ? "✓ saved" : "save failed"}
           </div>
         )}
@@ -301,12 +301,12 @@ export default function Layout({
                   <input
                     value={settings.brandName}
                     onChange={(e) => setSettings((s) => ({ ...s, brandName: e.target.value }))}
-                    className="font-display font-black text-2xl bg-black/60 border border-[#df00ff] rounded px-2 py-1 text-white"
+                    className="font-display font-black text-2xl bg-black/60 border border-[#ff2fb3] rounded px-2 py-1 text-white"
                   />
                   <input
                     value={settings.tagline}
                     onChange={(e) => setSettings((s) => ({ ...s, tagline: e.target.value }))}
-                    className="font-mono text-xs bg-black/60 border border-[#df00ff] rounded px-2 py-1 text-[#df00ff]"
+                    className="font-mono text-xs bg-black/60 border border-[#ff2fb3] rounded px-2 py-1 text-[#ff2fb3]"
                   />
                   <input
                     value={settings.bannerGif}
@@ -319,16 +319,16 @@ export default function Layout({
                 <>
                   <h1 className="font-display font-black tracking-widest text-3xl sm:text-5xl"
                     style={{
-                      background: "linear-gradient(180deg, #ffffff 0%, #c0c0c8 40%, #df00ff 75%, #ff0066 100%)",
+                      background: "linear-gradient(180deg, #ffffff 0%, #c0c0c8 40%, #ff2fb3 75%, #aef62c 100%)",
                       WebkitBackgroundClip: "text",
                       backgroundClip: "text",
                       color: "transparent",
-                      textShadow: "0 0 30px rgba(223,0,255,0.5)",
+                      textShadow: "0 0 30px rgba(255,47,179,0.5)",
                     }}
                   >
                     {settings.brandName}
                   </h1>
-                  <div className="font-mono text-xs tracking-wide mt-1" style={{ color: "#df00ff" }}>{settings.tagline}</div>
+                  <div className="font-mono text-xs tracking-wide mt-1" style={{ color: "#ff2fb3" }}>{settings.tagline}</div>
                 </>
               )}
             </div>
@@ -336,13 +336,13 @@ export default function Layout({
               {editMode && (
                 <button
                   onClick={() => setEditingSettings((v) => !v)}
-                  className="font-mono text-[10px] px-2 py-1 rounded border border-[#df00ff] text-[#df00ff] flex items-center gap-1"
+                  className="font-mono text-[10px] px-2 py-1 rounded border border-[#ff2fb3] text-[#ff2fb3] flex items-center gap-1"
                 >
                   {editingSettings ? <Check size={11} /> : <Pencil size={11} />} {editingSettings ? "done" : "edit banner"}
                 </button>
               )}
-              <div className="font-mono text-[11px] tracking-wide px-3.5 py-1.5 rounded-full border" style={{ borderColor: "#df00ff", color: "#df00ff" }}>
-                <span className="inline-block w-1.5 h-1.5 rounded-full bg-[#00ffcc] mr-1.5 pulse-dot" />
+              <div className="font-mono text-[11px] tracking-wide px-3.5 py-1.5 rounded-full border" style={{ borderColor: "#ff2fb3", color: "#ff2fb3" }}>
+                <span className="inline-block w-1.5 h-1.5 rounded-full bg-[#00e5ff] mr-1.5 pulse-dot" />
                 SHOP IS OPEN
               </div>
             </div>
@@ -364,12 +364,12 @@ export default function Layout({
             </div>
 
             <Module title={`${settings.brandName}'s BLURB`}>
-              <span className="font-mono text-[11px] tracking-wide block mb-1.5" style={{ color: "#df00ff" }}>about us:</span>
+              <span className="font-mono text-[11px] tracking-wide block mb-1.5" style={{ color: "#ff2fb3" }}>about us:</span>
               {editMode ? (
                 <textarea
                   value={settings.blurb}
                   onChange={(e) => setSettings((s) => ({ ...s, blurb: e.target.value }))}
-                  className="w-full bg-black border border-[#df00ff] rounded px-2 py-1.5 text-sm text-[#c0c0c8]"
+                  className="w-full bg-black border border-[#ff2fb3] rounded px-2 py-1.5 text-sm text-[#c0c0c8]"
                   rows={4}
                 />
               ) : (
@@ -379,14 +379,14 @@ export default function Layout({
 
             {editMode && (
               <Module title="BORDER STYLE">
-                <span className="font-mono text-[11px] tracking-wide block mb-1.5" style={{ color: "#df00ff" }}>
+                <span className="font-mono text-[11px] tracking-wide block mb-1.5" style={{ color: "#ff2fb3" }}>
                   default blinkie border (applies to every item unless it has its own):
                 </span>
                 <input
                   value={settings.defaultBorderGif}
                   onChange={(e) => setSettings((s) => ({ ...s, defaultBorderGif: e.target.value }))}
                   placeholder="border GIF URL"
-                  className="w-full font-mono text-[10px] bg-black border border-[#df00ff] rounded px-2 py-1.5 text-[#c0c0c8]"
+                  className="w-full font-mono text-[10px] bg-black border border-[#ff2fb3] rounded px-2 py-1.5 text-[#c0c0c8]"
                 />
                 {settings.defaultBorderGif && (
                   <div

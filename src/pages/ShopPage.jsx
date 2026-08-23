@@ -53,7 +53,7 @@ export default function ShopPage() {
                 label="Status:"
                 value={
                   inStock ? (
-                    <span style={{ color: "#00ffcc" }}>● in stock</span>
+                    <span style={{ color: "#00e5ff" }}>● in stock</span>
                   ) : (
                     <span style={{ color: "#c0c0c8" }}>○ none yet</span>
                   )

@@ -28,7 +28,7 @@ export default function CollectionPage() {
     return (
       <Module title="NOT FOUND">
         <p className="text-sm mb-3">That collection doesn't exist.</p>
-        <button onClick={() => navigate("/shop")} className="font-mono text-[11px] flex items-center gap-1" style={{ color: "#df00ff" }}>
+        <button onClick={() => navigate("/shop")} className="font-mono text-[11px] flex items-center gap-1" style={{ color: "#ff2fb3" }}>
           <ArrowLeft size={12} /> back to shop
         </button>
       </Module>
@@ -40,11 +40,11 @@ export default function CollectionPage() {
       title={category.label.toUpperCase()}
       headerRight={
         <div className="flex items-center gap-3">
-          <button onClick={() => navigate("/shop")} className="font-mono text-[10px] flex items-center gap-1" style={{ color: "#df00ff" }}>
+          <button onClick={() => navigate("/shop")} className="font-mono text-[10px] flex items-center gap-1" style={{ color: "#ff2fb3" }}>
             <ArrowLeft size={12} /> back to shop
           </button>
           {editMode && (
-            <button onClick={() => addProduct(category.tag || undefined)} className="font-mono text-[10px] flex items-center gap-1" style={{ color: "#df00ff" }}>
+            <button onClick={() => addProduct(category.tag || undefined)} className="font-mono text-[10px] flex items-center gap-1" style={{ color: "#ff2fb3" }}>
               <Plus size={12} /> add item
             </button>
           )}
@@ -68,7 +68,7 @@ export default function CollectionPage() {
           />
         ))}
         {filtered.length === 0 && (
-          <div className="text-center py-10 font-mono text-xs" style={{ color: "#df00ff" }}>
+          <div className="text-center py-10 font-mono text-xs" style={{ color: "#ff2fb3" }}>
             nothing tagged "{category.label}" yet
           </div>
         )}
